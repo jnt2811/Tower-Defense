@@ -1,30 +1,36 @@
 package jnt.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import jnt.game.Entity.enemy.Enemy;
-import jnt.game.Entity.tower.Tower;
+import jnt.game.Entity.enemy.NormalEnemy;
+import jnt.game.Entity.tower.MortarTower;
+import jnt.game.Entity.tower.NormalTower;
+import jnt.game.Entity.tower.RifleTower;
+import jnt.game.Entity.tower.SmgTower;
 
 import java.util.ArrayList;
 
 public class GameState {
 
     private Map map;
-    private ArrayList<Tower> towers;
-    private Stage stage;
+    private ArrayList<NormalTower> towers;
+    private Level level;
     private int healthNum = 10, goldNum = 0;
 
     public GameState() {
 
         map = new Map();
 
-        stage = new Stage();
-        stage.setStage(1);
+        level = new Level();
+        level.setLevel(1);
 
         towers = new ArrayList<>();
 
-        //add 2 towers
-        towers.add(new Tower(1, 500, 500, 250, stage.getEnemies()));
-        towers.add(new Tower(2, 100, 300, 250, stage.getEnemies()));
+        //add 4 towers
+        towers.add(new NormalTower(500, 500, level.getEnemies()));
+        towers.add(new SmgTower(100, 300, level.getEnemies()));
+        towers.add(new RifleTower(700, 300, level.getEnemies()));
+        towers.add(new MortarTower(300, 100, level.getEnemies()));
+        
     }
 
     public void render(SpriteBatch batch, float delta) {
@@ -43,32 +49,36 @@ public class GameState {
         batch.end();
     }
 
+
     public void createTowers(SpriteBatch batch, float delta) {
         batch.begin();
 
-        for(Tower tower : towers)
-            tower.draw(batch, delta);
+        for(NormalTower tower : towers)
+            tower.draw(batch);
 
         batch.end();
     }
+
 
     public void createEnemies(SpriteBatch batch, float delta) {
         batch.begin();
 
-        stage.draw(batch,delta);
+        level.draw(batch,delta);
 
         batch.end();
     }
 
+
     public void update(float delta) {
 
-        for(Enemy enemy : stage.getEnemies()) {
-            if(enemy.isDecreaseHealth()) {
+        for(NormalEnemy normalEnemy : level.getEnemies()) {
+            if(normalEnemy.isDecreaseHealth()) {
                 healthNum--;
-                enemy.setDecreaseHealth(false);
+                normalEnemy.setDecreaseHealth(false);
             }
         }
     }
+
 
     public int getHealthNum() {
         return healthNum;
