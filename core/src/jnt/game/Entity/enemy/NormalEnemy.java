@@ -4,7 +4,5 @@ public class NormalEnemy extends Enemy {
 
     public NormalEnemy(int id, int enemyBlood) {
         super(id, enemyBlood);
-
-        //đasadasjdnjsanjkdanndkajndjkanda
     }
 }
