@@ -16,6 +16,7 @@ public class SmgTower extends NormalTower {
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun2.png")));
 
         // Default
+        type = "smg";
         range = 150;
     }
 }

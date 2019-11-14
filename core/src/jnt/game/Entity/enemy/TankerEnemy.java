@@ -10,7 +10,13 @@ public class TankerEnemy extends  NormalEnemy {
         enemy = new Sprite(new Texture(Gdx.files.internal("enemy3.png")));
 
         // Default
-        blood = 30;
+        blood = 500;
         speed = 2;
+
+        // Calculate One Pixel compared to Blood Bar's Width
+        onePixel = greenBlood.getWidth() / blood;
+
+        // This Variable is the History of Enemy's Blood
+        oldBlood = blood;
     }
 }

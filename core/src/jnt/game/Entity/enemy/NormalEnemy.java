@@ -12,22 +12,23 @@ public class NormalEnemy extends Entity {
     protected Sprite enemy;
     protected int blood;
     protected float speed;
+    protected float onePixel;
+    protected Sprite greenBlood, redBlood;
+    protected int oldBlood;
 
-    private int m, n, oldBlood;
-    private Sprite greenBlood, redBlood;
+    private int m, n;
     private int direction1, direction2;
     private int[][] Valid;
     private boolean decreaseHealth = false;
-    private float onePixel;
 
     public NormalEnemy() {
 
         enemy = new Sprite(new Texture(Gdx.files.internal("enemy1.png")));
 
         // Default
-        blood = 20;
-        speed = 2;
-
+        blood = 10000;
+        speed = 5;
+        setActive(true);
 
         greenBlood = new Sprite(new Texture(Gdx.files.internal("greenBlood.png")));
         redBlood = new Sprite(new Texture(Gdx.files.internal("redBlood.png")));
@@ -50,8 +51,6 @@ public class NormalEnemy extends Entity {
 
         // Look for the Start Point
         start();
-
-        setActive(true);
     }
 
     @Override
@@ -184,7 +183,7 @@ public class NormalEnemy extends Entity {
                     setActive(false);
 
                     // ALso Decrease Player's Health
-                    if(!decreaseHealth) decreaseHealth = true;
+                    if(!decreaseHealth) setDecreaseHealth(true);
                 }
             }
         }

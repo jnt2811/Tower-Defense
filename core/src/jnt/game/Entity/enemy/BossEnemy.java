@@ -10,7 +10,13 @@ public class BossEnemy extends NormalEnemy {
         enemy = new Sprite(new Texture(Gdx.files.internal("enemy4.png")));
 
         // Default
-        blood = 35;
+        blood = 10000;
         speed = 2;
+
+        // Calculate One Pixel compared to Blood Bar's Width
+        onePixel = greenBlood.getWidth() / blood;
+
+        // This Variable is the History of Enemy's Blood
+        oldBlood = blood;
     }
 }

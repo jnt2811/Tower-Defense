@@ -1,5 +1,7 @@
 package jnt.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jnt.game.Entity.enemy.NormalEnemy;
 import jnt.game.Entity.tower.MortarTower;
@@ -15,6 +17,7 @@ public class GameState {
     private ArrayList<NormalTower> towers;
     private Level level;
     private int healthNum = 10, goldNum = 0;
+    private BitmapFont health, gold;
 
     public GameState() {
 
@@ -24,6 +27,8 @@ public class GameState {
         level.setLevel(1);
 
         towers = new ArrayList<>();
+        health = new BitmapFont(Gdx.files.internal("health.fnt"));
+        gold = new BitmapFont(Gdx.files.internal("health.fnt"));
 
         //add 4 towers
         towers.add(new NormalTower(500, 500, level.getEnemies()));
@@ -37,6 +42,8 @@ public class GameState {
         createMap(batch);
         createTowers(batch, delta);
         createEnemies(batch, delta);
+        createHealth(batch);
+        createGold(batch);
 
         update(delta);
     }
@@ -69,12 +76,32 @@ public class GameState {
     }
 
 
+    public void createHealth(SpriteBatch batch) {
+        batch.begin();
+
+        health.draw(batch, "" + healthNum, 1010, 660);
+
+        batch.end();
+    }
+
+
+    public void createGold(SpriteBatch batch) {
+        batch.begin();
+
+        gold.draw(batch, "" + goldNum, 1010, 560);
+
+        batch.end();
+    }
+
+
     public void update(float delta) {
 
-        for(NormalEnemy normalEnemy : level.getEnemies()) {
-            if(normalEnemy.isDecreaseHealth()) {
+        for(NormalEnemy enemy : level.getEnemies()) {
+            System.out.println(enemy.isDecreaseHealth());
+            if(enemy.isDecreaseHealth()) {
+                System.out.println("ok");
                 healthNum--;
-                normalEnemy.setDecreaseHealth(false);
+                enemy.setDecreaseHealth(false);
             }
         }
     }

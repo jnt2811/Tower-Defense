@@ -16,6 +16,7 @@ public class RifleTower extends NormalTower {
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun3.png")));
 
         // Default
+        type = "rifle";
         range = 250;
     }
 }

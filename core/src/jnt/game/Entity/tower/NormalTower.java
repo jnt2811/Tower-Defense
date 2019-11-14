@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jnt.game.Entity.Entity;
-import jnt.game.Entity.bullet.NormalBullet;
+import jnt.game.Entity.bullet.Bullet;
 import jnt.game.Entity.enemy.NormalEnemy;
 
 import java.util.ArrayList;
@@ -14,12 +14,13 @@ public class NormalTower extends Entity {
 
     protected Sprite towerBase, towerGun;
     protected int range;
+    protected String type;
 
     private ArrayList<NormalEnemy> enemies, targets;
-    private ArrayList<NormalBullet> normalBullets;
+    private ArrayList<Bullet> bullets;
     private float move;
 
-    public NormalTower(int x, int y, ArrayList<NormalEnemy> enemies) {
+    public NormalTower(double x, double y, ArrayList<NormalEnemy> enemies) {
 
         this.x = x;
         this.y = y;
@@ -28,11 +29,12 @@ public class NormalTower extends Entity {
         towerBase = new Sprite(new Texture(Gdx.files.internal("towerBase1.png")));
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun1.png")));
 
-        normalBullets = new ArrayList<>();
-        targets = new ArrayList<>();
-
         // Default
-        range = 150;
+        type = "normal";
+        range = 200;
+
+        bullets = new ArrayList<>();
+        targets = new ArrayList<>();
 
         setActive(true);
     }
@@ -43,7 +45,7 @@ public class NormalTower extends Entity {
         if(isActive()) {
 
             // Draw Bullets
-            for (NormalBullet normalBullet : normalBullets) normalBullet.draw(batch);
+            for (Bullet bullet : bullets) bullet.draw(batch);
 
             // Draw the Base and the Gun
             towerBase.draw(batch);
@@ -78,14 +80,15 @@ public class NormalTower extends Entity {
 
     public void lockTarget(ArrayList<NormalEnemy> enemies) {
 
-        for (NormalEnemy normalEnemy : enemies) {
+        for (NormalEnemy enemy : enemies) {
 
-            if (distance(normalEnemy) <= range) {
+            if (distance(enemy) <= range) {
 
-                if(targets.isEmpty())
-                    targets.add(normalEnemy);
+                if(targets.isEmpty()) {
+                    targets.add(enemy);
+                }
 
-                else if (!targets.isEmpty()) {
+                if (!targets.isEmpty()) {
 
                     for(NormalEnemy target : targets)
                         gunRotate(target);
@@ -98,8 +101,11 @@ public class NormalTower extends Entity {
     public void unlockTarget(ArrayList<NormalEnemy> targets) {
 
         for(int i = 0; i < targets.size(); i++) {
-            if((distance(targets.get(i)) > range || !targets.get(i).isActive()) && !targets.isEmpty())
-                targets.remove(targets.get(i));
+            if(((distance(targets.get(i)) > range && (!targets.get(i).isActive() || targets.get(i).isActive()))
+                    || (distance(targets.get(i)) <= range && !targets.get(i).isActive())) && !targets.isEmpty()) {
+
+                targets.remove(i);
+            }
         }
     }
 
@@ -120,26 +126,25 @@ public class NormalTower extends Entity {
         double angle = Math.toDegrees( Math.atan2( x - target.getX() , target.getY() - y) );
 
         // Set Gun's Rotation
-        if(towerGun.getRotation() <= angle) towerGun.setRotation(move += 10);
-        if(towerGun.getRotation() > angle) towerGun.setRotation(move -= 10);
+        if(towerGun.getRotation() <= angle) towerGun.setRotation(move += 15);
+        if(towerGun.getRotation() > angle) towerGun.setRotation(move -= 15);
     }
 
 
     public void createBullets(SpriteBatch batch, NormalEnemy target) {
 
-        for (int i = 0; i< normalBullets.size(); i++) {
+        for (int i = 0; i< bullets.size(); i++) {
 
-            normalBullets.get(i).draw(batch);
+            bullets.get(i).draw(batch);
 
             // Remove bullet from Bullets Array
-            if(!normalBullets.get(i).isActive())
-                normalBullets.remove(i);
+            if(!bullets.get(i).isActive())
+                bullets.remove(i);
         }
 
         // Always Add an Bullet to the Bullets Array if It's Empty
-        if(normalBullets.size() < 1) {
-
-            normalBullets.add(new NormalBullet(towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
-        }
+        //if(bullets.size() < 1) {
+            bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
+       // }
     }
 }

@@ -7,27 +7,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jnt.game.Entity.Entity;
 import jnt.game.Entity.enemy.NormalEnemy;
 
-public class NormalBullet extends Entity {
+public class Bullet extends Entity {
 
     protected Sprite bullet;
     protected int dame;
     protected float speed;
+    protected int type;
 
     private NormalEnemy target;
     private double distance;
 
-    public NormalBullet(double x, double y, NormalEnemy target) {
+    public Bullet(String type, double x, double y, NormalEnemy target) {
 
         this.x = x;
         this.y = y;
         this.target = target;
 
-        bullet = new Sprite(new Texture(Gdx.files.internal("bullet1.png")));
+        setBulletType(type);
 
         // Default
-        dame = 1;
-        speed = 3;
-
         setActive(true);
     }
 
@@ -57,6 +55,39 @@ public class NormalBullet extends Entity {
         if(distance == 0) {
             setActive(false);
             target.setBlood(target.getBlood() - dame);
+        }
+    }
+
+
+    public void setBulletType(String type) {
+
+        if(type == "normal") {
+            bullet = new Sprite(new Texture(Gdx.files.internal("bullet1.png")));
+
+            // Default
+            dame = 1;
+            speed = 5;
+        }
+        if(type == "smg") {
+            bullet = new Sprite(new Texture(Gdx.files.internal("bullet2.png")));
+
+            // Default
+            dame = 1;
+            speed = 5;
+        }
+        if(type == "rifle") {
+            bullet = new Sprite(new Texture(Gdx.files.internal("bullet3.png")));
+
+            // Default
+            dame = 3;
+            speed = 5;
+        }
+        if(type == "mortar") {
+            bullet = new Sprite(new Texture(Gdx.files.internal("bullet4.png")));
+
+            // Default
+            dame = 5;
+            speed = 5;
         }
     }
 

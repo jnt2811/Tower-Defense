@@ -16,6 +16,7 @@ public class MortarTower extends NormalTower {
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun4.png")));
 
         // Default
+        type = "mortar";
         range = 350;
     }
 }

@@ -10,7 +10,13 @@ public class NinjaEnemy extends NormalEnemy {
         enemy = new Sprite(new Texture(Gdx.files.internal("enemy2.png")));
 
         // Default
-        blood = 25;
-        speed = 2;
+        blood = 20;
+        speed = 5;
+
+        // Calculate One Pixel compared to Blood Bar's Width
+        onePixel = greenBlood.getWidth() / blood;
+
+        // This Variable is the History of Enemy's Blood
+        oldBlood = blood;
     }
 }
