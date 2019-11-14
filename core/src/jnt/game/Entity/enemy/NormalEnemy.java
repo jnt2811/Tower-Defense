@@ -24,6 +24,7 @@ public class NormalEnemy extends Entity {
     public NormalEnemy() {
 
         enemy = new Sprite(new Texture(Gdx.files.internal("enemy1.png")));
+        enemy.setSize(60,60);
 
         // Default
         blood = 10000;

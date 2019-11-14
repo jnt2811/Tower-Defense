@@ -10,13 +10,24 @@ public class Map{
     private Texture heart, gold;
 
     public static final int[][] map = {
-            {2,1,1,1,1,1,1,1,1,10,5},
-            {0,0,0,0,0,0,0,0,1,11,5},
-            {1,1,1,1,1,0,3,0,1,6,7},
-            {1,0,0,0,1,0,0,0,1,8,9},
-            {1,0,4,0,1,1,1,1,1,5,5},
-            {1,0,0,0,0,0,0,0,0,5,5},
-            {1,1,1,1,1,1,1,1,2,5,5},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,12,13,21,22,23},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,15,16,24,25,26},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,19,27,28,29},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,33,41,42,43},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34,35,36,43,44,45},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,38,39,47,48,49},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,5,5,5,5,5},
     };
 
     public Map() {
@@ -32,14 +43,15 @@ public class Map{
         tower3 = new Texture(Gdx.files.internal("tower3.png"));
         tower4 = new Texture(Gdx.files.internal("tower4.png"));
 
-        heart = new Texture(Gdx.files.internal("heart.png"));
+        heart = new Texture(Gdx.files.internal("health.png"));
         gold = new Texture(Gdx.files.internal("gold.png"));
 
+        // Drag Down the Map
         for (int y=0; y<map.length/2; y++) {
             for (int x=0; x<map[y].length; x++) {
                 int a = map[y][x];
-                map[y][x] = map[6 - y][x];
-                map[6 - y][x] = a;
+                map[y][x] = map[map.length - 1 - y][x];
+                map[map.length - 1 - y][x] = a;
             }
         }
     }
@@ -60,8 +72,25 @@ public class Map{
                 if(map[y][x] == 8) batch.draw(tower3, x*silver.getWidth(), y*silver.getWidth());
                 if(map[y][x] == 9) batch.draw(tower4, x*silver.getWidth(), y*silver.getWidth());
 
-                if(map[y][x] == 10) batch.draw(heart, x*silver.getWidth(), y*silver.getWidth());
-                if(map[y][x] == 11) batch.draw(gold, x*silver.getWidth(), y*silver.getWidth());
+                for(int i=11; i<= 19; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=21; i<= 29; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=31; i<= 39; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+                
+                for(int i=41; i<= 49; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
             }
         }
     }

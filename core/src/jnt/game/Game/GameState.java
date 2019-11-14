@@ -43,11 +43,11 @@ public class GameState {
     public void render(SpriteBatch batch, float delta) {
 
         createMap(batch);
-        createTowers(batch, delta);
-        createEnemies(batch, delta);
-        createInfo(batch);
-
-        update();
+//        createTowers(batch, delta);
+//        createEnemies(batch, delta);
+//        createInfo(batch);
+//
+//        update();
     }
 
 

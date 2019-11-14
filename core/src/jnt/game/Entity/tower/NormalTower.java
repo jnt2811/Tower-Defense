@@ -144,7 +144,6 @@ public class NormalTower extends Entity {
 
         // Always Add an Bullet to the Bullets Array if It's Empty
 
-        System.out.println(time);
         time += delta;
         if (delta > 0){
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
