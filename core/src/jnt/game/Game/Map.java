@@ -18,7 +18,7 @@ public class Map{
             {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,14,15,16,24,25,26},
             {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,17,18,19,27,28,29},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,33,41,42,43},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34,35,36,43,44,45},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34,35,36,44,45,46},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,38,39,47,48,49},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
@@ -37,11 +37,6 @@ public class Map{
         rock = new Texture(Gdx.files.internal("rock.png"));
         point = new Texture(Gdx.files.internal("point.png"));
         silver = new Texture(Gdx.files.internal("silver.png"));
-
-        tower1 = new Texture(Gdx.files.internal("tower1.png"));
-        tower2 = new Texture(Gdx.files.internal("tower2.png"));
-        tower3 = new Texture(Gdx.files.internal("tower3.png"));
-        tower4 = new Texture(Gdx.files.internal("tower4.png"));
 
         heart = new Texture(Gdx.files.internal("health.png"));
         gold = new Texture(Gdx.files.internal("gold.png"));
@@ -67,30 +62,25 @@ public class Map{
                 if(map[y][x] == 4) batch.draw(rock, x*rock.getWidth(), y*rock.getWidth());
                 if(map[y][x] == 5) batch.draw(silver, x*silver.getWidth(), y*silver.getWidth());
 
-                if(map[y][x] == 6) batch.draw(tower1, x*silver.getWidth(), y*silver.getWidth());
-                if(map[y][x] == 7) batch.draw(tower2, x*silver.getWidth(), y*silver.getWidth());
-                if(map[y][x] == 8) batch.draw(tower3, x*silver.getWidth(), y*silver.getWidth());
-                if(map[y][x] == 9) batch.draw(tower4, x*silver.getWidth(), y*silver.getWidth());
-
                 for(int i=11; i<= 19; i++) {
                     if(map[y][x] == i)
                         batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
                 }
 
-//                for(int i=21; i<= 29; i++) {
-//                    if(map[y][x] == i)
-//                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
-//                }
-//
-//                for(int i=31; i<= 39; i++) {
-//                    if(map[y][x] == i)
-//                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
-//                }
-//
-//                for(int i=41; i<= 49; i++) {
-//                    if(map[y][x] == i)
-//                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
-//                }
+                for(int i=21; i<= 29; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=31; i<= 39; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=41; i<= 49; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
             }
         }
     }
