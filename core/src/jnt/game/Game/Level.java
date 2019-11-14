@@ -68,7 +68,7 @@ public class Level {
             time = 0;
         }
 
-        for (NormalEnemy enemy : enemies) enemy.draw(batch);
+        for (NormalEnemy enemy : enemies) enemy.draw(batch, delta);
 
         update();
     }

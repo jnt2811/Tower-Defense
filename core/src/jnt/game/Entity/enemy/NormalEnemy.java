@@ -54,7 +54,7 @@ public class NormalEnemy extends Entity {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, float delta) {
 
         if(isActive()) {
 

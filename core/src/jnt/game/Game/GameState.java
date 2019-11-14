@@ -72,7 +72,7 @@ public class GameState {
         batch.begin();
 
         for(NormalTower tower : towers)
-            tower.draw(batch);
+            tower.draw(batch, delta);
 
         batch.end();
     }

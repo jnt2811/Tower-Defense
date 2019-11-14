@@ -30,7 +30,7 @@ public class Bullet extends Entity {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, float delta) {
 
         // Draw Bullet Until It Beets the Target
         if(isActive()) {

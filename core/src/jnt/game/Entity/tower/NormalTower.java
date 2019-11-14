@@ -40,12 +40,12 @@ public class NormalTower extends Entity {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch, float delta) {
 
         if(isActive()) {
 
             // Draw Bullets
-            for (Bullet bullet : bullets) bullet.draw(batch);
+            for (Bullet bullet : bullets) bullet.draw(batch, delta);
 
             // Draw the Base and the Gun
             towerBase.draw(batch);
@@ -61,7 +61,7 @@ public class NormalTower extends Entity {
 
             // Set Bullets FIRED
             for(NormalEnemy target : targets)
-                createBullets(batch, target);
+                createBullets(batch, delta, target);
 
             update();
         }
@@ -131,11 +131,11 @@ public class NormalTower extends Entity {
     }
 
 
-    public void createBullets(SpriteBatch batch, NormalEnemy target) {
+    public void createBullets(SpriteBatch batch,float delta, NormalEnemy target) {
 
         for (int i = 0; i< bullets.size(); i++) {
 
-            bullets.get(i).draw(batch);
+            bullets.get(i).draw(batch, delta);
 
             // Remove bullet from Bullets Array
             if(!bullets.get(i).isActive())
@@ -143,8 +143,12 @@ public class NormalTower extends Entity {
         }
 
         // Always Add an Bullet to the Bullets Array if It's Empty
-        //if(bullets.size() < 1) {
+
+        System.out.println(time);
+        time += delta;
+        if (delta > 0){
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
-       // }
+            time = 0;
+        }
     }
 }
