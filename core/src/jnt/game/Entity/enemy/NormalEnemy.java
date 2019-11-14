@@ -137,61 +137,75 @@ public class NormalEnemy extends Entity {
     public void move() {
 
         // RIGHT
-        if(valid(m, n + 1) && Map.map[m][n+1] == 1 && (Valid[m][n+1] != -1)) {
+        if(valid(m, n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 2) && (Valid[m][n+1] != -1)) {
             if(x != enemy.getWidth()*(n+1)) x+=speed;
-            direction2 = 1;
             if(x == enemy.getWidth()*(n+1)) {
-                Valid[m][n+1] = -1;
-                n++;
+                if(Map.map[m][n+1] == 1) {
+                    Valid[m][n+1] = -1;
+                    n++;
+                }
+                if(Map.map[m][n+1] == 2) {
+                    if(isActive()) setActive(false);//
+                    if(!finished) finished = true;//
+                }
             }
+            direction2 = 1;
         }
 
         // LEFT
-        if(valid(m, n - 1) && Map.map[m][n-1] == 1 && (Valid[m][n-1] != -1)) {
+        if(valid(m, n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 2) && (Valid[m][n-1] != -1)) {
             if(x != enemy.getWidth()*(n-1)) x-=speed;
-            direction2 = 2;
             if(x == enemy.getWidth()*(n-1)) {
-                Valid[m][n-1] = -1;
-                n--;
+                if(Map.map[m][n-1] == 1) {
+                    Valid[m][n-1] = -1;
+                    n--;
+                }
+                if(Map.map[m][n-1] == 2) {
+                    if(isActive()) setActive(false);//
+                    if(!finished) finished = true;//
+                }
             }
+            direction2 = 2;
         }
 
         // UP
-        if(valid(m + 1, n) && Map.map[m+1][n] == 1 && Valid[m+1][n] != -1) {
+        if(valid(m + 1, n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 2) && Valid[m+1][n] != -1) {
             if(y != enemy.getHeight()*(m+1)) y+=speed;
-            direction2 = 3;
             if(y == enemy.getHeight()*(m+1)) {
-                Valid[m+1][n] = -1;
-                m++;
+                if(Map.map[m+1][n] == 1) {
+                    Valid[m+1][n] = -1;
+                    m++;
+                }
+                if(Map.map[m+1][n] == 2) {
+                    if(isActive()) setActive(false);//
+                    if(!finished) finished = true;//
+                }
             }
+            direction2 = 3;
         }
 
         // DOWN
-        if(valid(m - 1, n ) && Map.map[m-1][n] == 1 && (Valid[m-1][n] != -1)) {
+        if(valid(m - 1, n ) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 2) && (Valid[m-1][n] != -1)) {
             if(y != enemy.getHeight()*(m-1)) y-=speed;
-            direction2 = 4;
             if(y == enemy.getHeight()*(m-1)) {
-                Valid[m-1][n] = -1;
-                m--;
+                if(Map.map[m-1][n] == 1) {
+                    Valid[m-1][n] = -1;
+                    m--;
+                }
+                if(Map.map[m-1][n] == 2) {
+                    if(isActive()) setActive(false);//
+                    if(!finished) finished = true;//
+                }
             }
-        }
-
-        // Get DISAPPEARED When Enemy Reaches the Final Point
-        if(valid(m, n + 1) && Map.map[m][n+1] == 2 && (Valid[m][n+1] != -1)) {
-            if(x != enemy.getWidth()*(n+1)) x+=speed;
-            if(x == enemy.getWidth()*(n+1)) {
-                if(isActive()) setActive(false);
-
-                // ALso Decrease Player's Health
-                if(!finished) finished = true;
-            }
+            direction2 = 4;
         }
     }
 
 
     // Prevent "Screen ERROR"
     static private boolean valid(int i, int j){
-        return (0 <= i &&  i < 7 && 0 <= j && j < 9);
+        // i = height, j = width
+        return (0 <= i &&  i < Gdx.graphics.getHeight()/60 && 0 <= j && j < Gdx.graphics.getWidth()/60 - 6);
     }
 
 

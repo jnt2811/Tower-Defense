@@ -44,10 +44,10 @@ public class GameState {
 
         createMap(batch);
 //        createTowers(batch, delta);
-//        createEnemies(batch, delta);
+        createEnemies(batch, delta);
 //        createInfo(batch);
-//
-//        update();
+
+        update();
     }
 
 
