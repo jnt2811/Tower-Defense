@@ -1,4 +1,4 @@
-package jnt.game;
+package jnt.game.Game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;

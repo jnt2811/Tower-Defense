@@ -1,10 +1,7 @@
-package jnt.game;
+package jnt.game.Game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import jnt.game.Entity.enemy.BossEnemy;
 import jnt.game.Entity.enemy.NormalEnemy;
-import jnt.game.Entity.enemy.NinjaEnemy;
-import jnt.game.Entity.enemy.TankerEnemy;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -15,7 +12,7 @@ public class Level {
     private float time;
     private ArrayList<NormalEnemy> enemies;
     private Stack<NormalEnemy> enemieS;
-    private boolean isSet = false;
+    private boolean isSet = false, decreaseHealth = false;
 
     public Level() {
         enemies = new ArrayList<>();
@@ -57,7 +54,6 @@ public class Level {
         //
         enemies.add(enemieS.pop());
 
-
         if(enemies.size() == 0) isSet = false;
     }
 
@@ -66,7 +62,7 @@ public class Level {
 
         time += delta;
 
-        if(time > 1.5) {
+        if(time > 0.5) {
             if(!enemieS.isEmpty())
                 enemies.add(enemieS.pop());
             time = 0;
@@ -79,17 +75,32 @@ public class Level {
 
     public void update() {
         for (int i=0; i<enemies.size(); i++) {
+
+            // Decrease Player's Health
+            if(enemies.get(i).isFinished()) {
+                enemies.get(i).setFinished(false);
+                decreaseHealth = true;
+            }
+
+            // Remove An Enemy
             if(!enemies.get(i).isActive()) enemies.remove(i);
         }
     }
 
 
+    //
     public ArrayList<NormalEnemy> getEnemies() {
         return enemies;
     }
 
-
     public boolean isSet() {
         return isSet;
+    }
+
+    public void setDecreaseHealth(boolean decreaseHealth) {
+        this.decreaseHealth = decreaseHealth;
+    }
+    public boolean isDecreaseHealth() {
+        return decreaseHealth;
     }
 }

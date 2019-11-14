@@ -3,8 +3,8 @@ package jnt.game.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import jnt.game.GameState;
-import jnt.game.TowerDefense;
+import jnt.game.Game.GameState;
+import jnt.game.Game.TowerDefense;
 
 public class GameScreen implements Screen {
     private TowerDefense game;

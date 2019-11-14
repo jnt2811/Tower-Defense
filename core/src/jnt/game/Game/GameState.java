@@ -1,4 +1,4 @@
-package jnt.game;
+package jnt.game.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,8 +16,9 @@ public class GameState {
     private Map map;
     private ArrayList<NormalTower> towers;
     private Level level;
-    private int healthNum = 10, goldNum = 0;
-    private BitmapFont health, gold;
+
+    private int health = 10, gold = 0;
+    private BitmapFont healthNum, goldNum;
 
     public GameState() {
 
@@ -26,11 +27,12 @@ public class GameState {
         level = new Level();
         level.setLevel(1);
 
-        towers = new ArrayList<>();
-        health = new BitmapFont(Gdx.files.internal("health.fnt"));
-        gold = new BitmapFont(Gdx.files.internal("health.fnt"));
+        healthNum = new BitmapFont(Gdx.files.internal("health.fnt"));
+        goldNum = new BitmapFont(Gdx.files.internal("health.fnt"));
 
-        //add 4 towers
+        towers = new ArrayList<>();
+
+        // Add 4 towers
         towers.add(new NormalTower(500, 500, level.getEnemies()));
         towers.add(new SmgTower(100, 300, level.getEnemies()));
         towers.add(new RifleTower(700, 300, level.getEnemies()));
@@ -39,14 +41,23 @@ public class GameState {
     }
 
     public void render(SpriteBatch batch, float delta) {
+
         createMap(batch);
         createTowers(batch, delta);
         createEnemies(batch, delta);
-        createHealth(batch);
-        createGold(batch);
+        createInfo(batch);
 
-        update(delta);
+        update();
     }
+
+
+    public void update() {
+        if(level.isDecreaseHealth()) {
+            level.setDecreaseHealth(false);
+            health--;
+        }
+    }
+
 
     public void createMap(SpriteBatch batch) {
         batch.begin();
@@ -76,48 +87,12 @@ public class GameState {
     }
 
 
-    public void createHealth(SpriteBatch batch) {
+    public void createInfo(SpriteBatch batch) {
         batch.begin();
 
-        health.draw(batch, "" + healthNum, 1010, 660);
+        healthNum.draw(batch, "" + health, 1010, 660);
+        goldNum.draw(batch, "" + gold, 1010, 560);
 
         batch.end();
-    }
-
-
-    public void createGold(SpriteBatch batch) {
-        batch.begin();
-
-        gold.draw(batch, "" + goldNum, 1010, 560);
-
-        batch.end();
-    }
-
-
-    public void update(float delta) {
-
-        for(NormalEnemy enemy : level.getEnemies()) {
-            System.out.println(enemy.isDecreaseHealth());
-            if(enemy.isDecreaseHealth()) {
-                System.out.println("ok");
-                healthNum--;
-                enemy.setDecreaseHealth(false);
-            }
-        }
-    }
-
-
-    public int getHealthNum() {
-        return healthNum;
-    }
-    public void setHealthNum(int healthNum) {
-        this.healthNum = healthNum;
-    }
-
-    public int getGoldNum() {
-        return goldNum;
-    }
-    public void setGoldNum(int goldNum) {
-        this.goldNum = goldNum;
     }
 }

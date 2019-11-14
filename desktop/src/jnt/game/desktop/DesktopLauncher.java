@@ -2,7 +2,7 @@ package jnt.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import jnt.game.TowerDefense;
+import jnt.game.Game.TowerDefense;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

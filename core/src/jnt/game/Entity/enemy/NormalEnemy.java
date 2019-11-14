@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jnt.game.Entity.Entity;
-import jnt.game.Map;
+import jnt.game.Game.Map;
 
 public class NormalEnemy extends Entity {
 
@@ -19,7 +19,7 @@ public class NormalEnemy extends Entity {
     private int m, n;
     private int direction1, direction2;
     private int[][] Valid;
-    private boolean decreaseHealth = false;
+    private boolean finished = false;
 
     public NormalEnemy() {
 
@@ -179,12 +179,10 @@ public class NormalEnemy extends Entity {
         if(valid(m, n + 1) && Map.map[m][n+1] == 2 && (Valid[m][n+1] != -1)) {
             if(x != enemy.getWidth()*(n+1)) x+=speed;
             if(x == enemy.getWidth()*(n+1)) {
-                if(isActive()) {
-                    setActive(false);
+                if(isActive()) setActive(false);
 
-                    // ALso Decrease Player's Health
-                    if(!decreaseHealth) setDecreaseHealth(true);
-                }
+                // ALso Decrease Player's Health
+                if(!finished) finished = true;
             }
         }
     }
@@ -211,10 +209,10 @@ public class NormalEnemy extends Entity {
         this.blood = blood;
     }
 
-    public boolean isDecreaseHealth() {
-        return decreaseHealth;
+    public boolean isFinished() {
+        return finished;
     }
-    public void setDecreaseHealth(boolean decreaseHealth) {
-        this.decreaseHealth = decreaseHealth;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }
