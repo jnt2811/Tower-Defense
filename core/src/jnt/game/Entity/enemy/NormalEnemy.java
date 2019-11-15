@@ -114,24 +114,27 @@ public class NormalEnemy extends Entity {
 
 
     public void start() {
-        for(int Y = 0; Y< Map.map.length; Y++) {
-            if(Map.map[Y][0] == 2) {
+        for (int Y = 0; Y < Map.map.length; Y++) {
+            for (int X = 0; X < Map.map[Y].length; X++) {
 
-                // Passed square is '-1' in Valid array
-                Valid[Y][0] = -1;
+                if (Map.map[Y][X] == 2) {
 
-                y += Y*enemy.getHeight();
-                x += 0*enemy.getWidth();
+                    // Passed square is '-1' in Valid array
+                    Valid[Y][X] = -1;
 
-                m=Y;
+                    y += Y * enemy.getHeight();
+                    x += X * enemy.getWidth();
 
-                direction1 = 1;
+                    m = Y;
+                    n = X;
 
-                break;
+                    direction1 = 1;
+
+                    break;
+                }
             }
         }
     }
-
 
     // Move based on Each Map's Square
     public void move() {

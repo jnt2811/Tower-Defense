@@ -1,6 +1,7 @@
 package jnt.game.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import jnt.game.Entity.enemy.NormalEnemy;
@@ -16,11 +17,14 @@ public class GameState {
     private Map map;
     private ArrayList<NormalTower> towers;
     private Level level;
+    private Texture bug;
 
     private int health = 10, gold = 0;
     private BitmapFont healthNum, goldNum;
 
     public GameState() {
+
+        bug = new Texture(Gdx.files.internal("grass.png"));
 
         map = new Map();
 
@@ -46,6 +50,7 @@ public class GameState {
         createTowers(batch, delta);
         createEnemies(batch, delta);
         createInfo(batch);
+        createBug(batch);
 
         update();
     }
@@ -90,9 +95,24 @@ public class GameState {
     public void createInfo(SpriteBatch batch) {
         batch.begin();
 
-        healthNum.draw(batch, "" + health, 1770, 1040);
-        goldNum.draw(batch, "" + gold, 1770, 920);
+        healthNum.draw(batch, "" + health, 1410, 860);
+        goldNum.draw(batch, "" + gold, 1410, 740);
 
         batch.end();
+    }
+
+    public void createBug(SpriteBatch batch) {
+        batch.begin();
+
+        batch.draw(bug, 0,0);
+
+        batch.end();
+    }
+
+    public void dispose() {
+        healthNum.dispose();
+        goldNum.dispose();
+
+        map.dispose();
     }
 }
