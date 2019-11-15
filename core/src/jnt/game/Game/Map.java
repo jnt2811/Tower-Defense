@@ -6,28 +6,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Map{
     private Texture grass, land, tree, rock, point, silver;
-    private Texture tower1, tower2, tower3, tower4;
-    private Texture heart, gold;
 
     public static final int[][] map = {
-            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,5,5,5,5,5},
-            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,5,5,5,5,5},
-            {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,5,5,5,5,5,5},
-            {0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,51,52,4,4,4},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,53,54,4,4,4},
+            {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,4,61,62,4,4,4},
+            {0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,4,63,64,4,4,4},
             {0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,11,12,13,21,22,23},
             {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,14,15,16,24,25,26},
             {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,17,18,19,27,28,29},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,32,33,41,42,43},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,34,35,36,44,45,46},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,38,39,47,48,49},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,5,5,5},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4},
     };
 
     public Map() {
@@ -37,9 +35,6 @@ public class Map{
         rock = new Texture(Gdx.files.internal("rock.png"));
         point = new Texture(Gdx.files.internal("point.png"));
         silver = new Texture(Gdx.files.internal("silver.png"));
-
-        heart = new Texture(Gdx.files.internal("health.png"));
-        gold = new Texture(Gdx.files.internal("gold.png"));
 
         // Drag Down the Map
         for (int y=0; y<map.length/2; y++) {
@@ -58,9 +53,10 @@ public class Map{
                 if(map[y][x] == 0) batch.draw(grass, x*grass.getWidth(),y*grass.getWidth());
                 if(map[y][x] == 1) batch.draw(land, x*land.getWidth(), y*land.getWidth());
                 if(map[y][x] == 2) batch.draw(point, x*point.getWidth(), y*point.getWidth());
-                if(map[y][x] == 3) batch.draw(tree, x*tree.getWidth(), y*tree.getWidth());
-                if(map[y][x] == 4) batch.draw(rock, x*rock.getWidth(), y*rock.getWidth());
-                if(map[y][x] == 5) batch.draw(silver, x*silver.getWidth(), y*silver.getWidth());
+                if(map[y][x] == 3) batch.draw(point, x*tree.getWidth(), y*tree.getWidth());
+                if(map[y][x] == 4) batch.draw(silver, x*rock.getWidth(), y*rock.getWidth());
+                if(map[y][x] == 5) batch.draw(rock, x*silver.getWidth(), y*silver.getWidth());
+                if(map[y][x] == 6) batch.draw(tree, x*silver.getWidth(), y*silver.getWidth());
 
                 for(int i=11; i<= 19; i++) {
                     if(map[y][x] == i)
@@ -80,6 +76,16 @@ public class Map{
                 for(int i=41; i<= 49; i++) {
                     if(map[y][x] == i)
                         batch.draw(new Texture(Gdx.files.internal("tower"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=51; i<= 54; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("heart"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
+                }
+
+                for(int i=61; i<= 64; i++) {
+                    if(map[y][x] == i)
+                        batch.draw(new Texture(Gdx.files.internal("gold"+i+".png")), x*silver.getWidth(), y*silver.getWidth());
                 }
             }
         }

@@ -43,9 +43,9 @@ public class GameState {
     public void render(SpriteBatch batch, float delta) {
 
         createMap(batch);
-//        createTowers(batch, delta);
+        createTowers(batch, delta);
         createEnemies(batch, delta);
-//        createInfo(batch);
+        createInfo(batch);
 
         update();
     }
@@ -72,7 +72,7 @@ public class GameState {
         batch.begin();
 
         for(NormalTower tower : towers)
-            tower.draw(batch, delta);
+            tower.draw(batch,delta);
 
         batch.end();
     }
@@ -90,8 +90,8 @@ public class GameState {
     public void createInfo(SpriteBatch batch) {
         batch.begin();
 
-        healthNum.draw(batch, "" + health, 1010, 660);
-        goldNum.draw(batch, "" + gold, 1010, 560);
+        healthNum.draw(batch, "" + health, 1770, 1040);
+        goldNum.draw(batch, "" + gold, 1770, 920);
 
         batch.end();
     }

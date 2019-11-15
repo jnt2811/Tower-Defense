@@ -90,8 +90,8 @@ public class NormalEnemy extends Entity {
         redBlood.draw(batch);
         greenBlood.draw(batch);
 
-        redBlood.setPosition((float)x, (float)y + 85);
-        greenBlood.setPosition((float)x, (float)y + 85);
+        redBlood.setPosition((float)x, (float)y + 50);
+        greenBlood.setPosition((float)x, (float)y + 50);
 
         if (blood < oldBlood) {
             float newBlood = blood*onePixel;
@@ -137,14 +137,14 @@ public class NormalEnemy extends Entity {
     public void move() {
 
         // RIGHT
-        if(valid(m, n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 2) && (Valid[m][n+1] != -1)) {
+        if(valid(m, n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 3) && (Valid[m][n+1] != -1)) {
             if(x != enemy.getWidth()*(n+1)) x+=speed;
             if(x == enemy.getWidth()*(n+1)) {
                 if(Map.map[m][n+1] == 1) {
                     Valid[m][n+1] = -1;
                     n++;
                 }
-                if(Map.map[m][n+1] == 2) {
+                if(Map.map[m][n+1] == 3) {
                     if(isActive()) setActive(false);//
                     if(!finished) finished = true;//
                 }
@@ -153,14 +153,14 @@ public class NormalEnemy extends Entity {
         }
 
         // LEFT
-        if(valid(m, n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 2) && (Valid[m][n-1] != -1)) {
+        if(valid(m, n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 3) && (Valid[m][n-1] != -1)) {
             if(x != enemy.getWidth()*(n-1)) x-=speed;
             if(x == enemy.getWidth()*(n-1)) {
                 if(Map.map[m][n-1] == 1) {
                     Valid[m][n-1] = -1;
                     n--;
                 }
-                if(Map.map[m][n-1] == 2) {
+                if(Map.map[m][n-1] == 3) {
                     if(isActive()) setActive(false);//
                     if(!finished) finished = true;//
                 }
@@ -169,14 +169,14 @@ public class NormalEnemy extends Entity {
         }
 
         // UP
-        if(valid(m + 1, n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 2) && Valid[m+1][n] != -1) {
+        if(valid(m + 1, n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 3) && Valid[m+1][n] != -1) {
             if(y != enemy.getHeight()*(m+1)) y+=speed;
             if(y == enemy.getHeight()*(m+1)) {
                 if(Map.map[m+1][n] == 1) {
                     Valid[m+1][n] = -1;
                     m++;
                 }
-                if(Map.map[m+1][n] == 2) {
+                if(Map.map[m+1][n] == 3) {
                     if(isActive()) setActive(false);//
                     if(!finished) finished = true;//
                 }
@@ -185,14 +185,14 @@ public class NormalEnemy extends Entity {
         }
 
         // DOWN
-        if(valid(m - 1, n ) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 2) && (Valid[m-1][n] != -1)) {
+        if(valid(m - 1, n ) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 3) && (Valid[m-1][n] != -1)) {
             if(y != enemy.getHeight()*(m-1)) y-=speed;
             if(y == enemy.getHeight()*(m-1)) {
                 if(Map.map[m-1][n] == 1) {
                     Valid[m-1][n] = -1;
                     m--;
                 }
-                if(Map.map[m-1][n] == 2) {
+                if(Map.map[m-1][n] == 3) {
                     if(isActive()) setActive(false);//
                     if(!finished) finished = true;//
                 }

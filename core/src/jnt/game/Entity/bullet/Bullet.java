@@ -66,7 +66,7 @@ public class Bullet extends Entity {
 
             // Default
             dame = 1;
-            speed = 5;
+            speed = 10;
         }
         if(type == "smg") {
             bullet = new Sprite(new Texture(Gdx.files.internal("bullet2.png")));

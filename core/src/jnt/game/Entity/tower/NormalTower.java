@@ -15,6 +15,7 @@ public class NormalTower extends Entity {
     protected Sprite towerBase, towerGun;
     protected int range;
     protected String type;
+    protected float coolDown;
 
     private ArrayList<NormalEnemy> enemies, targets;
     private ArrayList<Bullet> bullets;
@@ -32,6 +33,7 @@ public class NormalTower extends Entity {
         // Default
         type = "normal";
         range = 200;
+        coolDown = 0.1f;
 
         bullets = new ArrayList<>();
         targets = new ArrayList<>();
@@ -61,7 +63,7 @@ public class NormalTower extends Entity {
 
             // Set Bullets FIRED
             for(NormalEnemy target : targets)
-                createBullets(batch, delta, target);
+                createBullets(batch, target, delta);
 
             update();
         }
@@ -131,7 +133,7 @@ public class NormalTower extends Entity {
     }
 
 
-    public void createBullets(SpriteBatch batch,float delta, NormalEnemy target) {
+    public void createBullets(SpriteBatch batch, NormalEnemy target, float delta) {
 
         for (int i = 0; i< bullets.size(); i++) {
 
@@ -143,11 +145,11 @@ public class NormalTower extends Entity {
         }
 
         // Always Add an Bullet to the Bullets Array if It's Empty
-
-        time += delta;
-        if (delta > 0){
+        coolDown -= delta;
+        if(coolDown <= 0) {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
-            time = 0;
+            coolDown = 0.1f;
         }
+        System.out.println(coolDown);
     }
 }
