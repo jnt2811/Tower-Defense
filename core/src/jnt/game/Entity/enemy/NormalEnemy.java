@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.Entity;
 import jnt.game.Game.Map;
 
-public class NormalEnemy extends Entity {
+public class NormalEnemy extends Entity implements Disposable {
 
     protected Sprite enemy;
     protected int blood;
@@ -17,7 +18,7 @@ public class NormalEnemy extends Entity {
     protected int oldBlood;
 
     private int m, n;
-    private int direction1, direction2;
+    private int direction1, direction2, turn;
     private int[][] Valid;
     private boolean finished = false;
 
@@ -28,7 +29,7 @@ public class NormalEnemy extends Entity {
 
         // Default
         blood = 10;
-        speed = 3;
+        speed = 7;
         setActive(true);
 
         greenBlood = new Sprite(new Texture(Gdx.files.internal("greenBlood.png")));
@@ -139,71 +140,76 @@ public class NormalEnemy extends Entity {
     // Move based on Each Map's Square
     public void move() {
 
-        // RIGHT
-        if(valid(m, n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 3) && (Valid[m][n+1] != -1)) {
+        if(valid(m,n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 3) && Valid[m][n+1] != -1) turn = 1; //RIGHT
+        if(valid(m,n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 3) && Valid[m][n-1] != -1) turn = 2; //LEFT
+        if(valid(m + 1,n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 3) && Valid[m+1][n] != -1) turn = 3; //UP
+        if(valid(m - 1,n) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 3) && Valid[m-1][n] != -1) turn = 4; //DOWN
+
+        if(turn == 1) {
             if(x != enemy.getWidth()*(n+1)) x+=speed;
-            if(x == enemy.getWidth()*(n+1)) {
+            if(x >= enemy.getWidth()*(n+1)) {
+                x = enemy.getWidth()*(n+1);
                 if(Map.map[m][n+1] == 1) {
                     Valid[m][n+1] = -1;
                     n++;
                 }
-                if(Map.map[m][n+1] == 3) {
-                    if(isActive()) setActive(false);//
-                    if(!finished) finished = true;//
+                else if(Map.map[m][n+1] == 3) {
+                    if(isActive()) setActive(false);
+                    if(!finished) finished = true;
                 }
             }
             direction2 = 1;
+            turn = 0;
         }
-
-        // LEFT
-        if(valid(m, n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 3) && (Valid[m][n-1] != -1)) {
+        if(turn == 2) {
             if(x != enemy.getWidth()*(n-1)) x-=speed;
-            if(x == enemy.getWidth()*(n-1)) {
+            if(x <= enemy.getWidth()*(n-1)) {
+                x = enemy.getWidth()*(n-1);
                 if(Map.map[m][n-1] == 1) {
                     Valid[m][n-1] = -1;
                     n--;
                 }
-                if(Map.map[m][n-1] == 3) {
-                    if(isActive()) setActive(false);//
-                    if(!finished) finished = true;//
+                else if(Map.map[m][n-1] == 3) {
+                    if(isActive()) setActive(false);
+                    if(!finished) finished = true;
                 }
             }
             direction2 = 2;
+            turn = 0;
         }
-
-        // UP
-        if(valid(m + 1, n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 3) && Valid[m+1][n] != -1) {
+        if(turn == 3) {
             if(y != enemy.getHeight()*(m+1)) y+=speed;
-            if(y == enemy.getHeight()*(m+1)) {
+            if(y >= enemy.getHeight()*(m+1)) {
+                y = enemy.getHeight()*(m+1);
                 if(Map.map[m+1][n] == 1) {
                     Valid[m+1][n] = -1;
                     m++;
                 }
-                if(Map.map[m+1][n] == 3) {
-                    if(isActive()) setActive(false);//
-                    if(!finished) finished = true;//
+                else if(Map.map[m+1][n] == 3) {
+                    if(isActive()) setActive(false);
+                    if(!finished) finished = true;
                 }
             }
             direction2 = 3;
+            turn = 0;
         }
-
-        // DOWN
-        if(valid(m - 1, n ) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 3) && (Valid[m-1][n] != -1)) {
+        if(turn == 4) {
             if(y != enemy.getHeight()*(m-1)) y-=speed;
-            if(y == enemy.getHeight()*(m-1)) {
+            if(y <= enemy.getHeight()*(m-1)) {
+                y = enemy.getHeight()*(m-1);
                 if(Map.map[m-1][n] == 1) {
                     Valid[m-1][n] = -1;
                     m--;
                 }
-                if(Map.map[m-1][n] == 3) {
-                    if(isActive()) setActive(false);//
-                    if(!finished) finished = true;//
+                else if(Map.map[m-1][n] == 3) {
+                    if(isActive()) setActive(false);
+                    if(!finished) finished = true;
                 }
             }
             direction2 = 4;
+            turn = 0;
         }
     }
-
 
     // Prevent "Screen ERROR"
     static private boolean valid(int i, int j){
@@ -232,5 +238,12 @@ public class NormalEnemy extends Entity {
     }
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    @Override
+    public void dispose() {
+        enemy.getTexture().dispose();
+        greenBlood.getTexture().dispose();
+        redBlood.getTexture().dispose();
     }
 }

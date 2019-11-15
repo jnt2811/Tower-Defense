@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.enemy.NormalEnemy;
 import jnt.game.Entity.tower.MortarTower;
 import jnt.game.Entity.tower.NormalTower;
@@ -12,19 +13,19 @@ import jnt.game.Entity.tower.SmgTower;
 
 import java.util.ArrayList;
 
-public class GameState {
+public class GameState implements Disposable {
 
     private Map map;
     private ArrayList<NormalTower> towers;
     private Level level;
-    private Texture bug;
+    private Texture bugFixed;
 
     private int health = 10, gold = 0;
     private BitmapFont healthNum, goldNum;
 
     public GameState() {
 
-        bug = new Texture(Gdx.files.internal("grass.png"));
+        bugFixed = new Texture(Gdx.files.internal("grass.png"));
 
         map = new Map();
 
@@ -47,10 +48,10 @@ public class GameState {
     public void render(SpriteBatch batch, float delta) {
 
         createMap(batch);
-        createTowers(batch, delta);
+//        createTowers(batch, delta);
         createEnemies(batch, delta);
         createInfo(batch);
-        createBug(batch);
+        createBugFixed(batch);
 
         update();
     }
@@ -101,18 +102,25 @@ public class GameState {
         batch.end();
     }
 
-    public void createBug(SpriteBatch batch) {
+    public void createBugFixed(SpriteBatch batch) {
         batch.begin();
 
-        batch.draw(bug, 0,0);
+        batch.draw(bugFixed, 0,0);
 
         batch.end();
     }
 
+    @Override
     public void dispose() {
+        map.dispose();
+        bugFixed.dispose();
         healthNum.dispose();
         goldNum.dispose();
+        level.dispose();
+        for(NormalTower tower : towers) tower.dispose();
+    }
 
-        map.dispose();
+    public int getHealth() {
+        return health;
     }
 }

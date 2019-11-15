@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.Entity;
 import jnt.game.Entity.enemy.NormalEnemy;
 
-public class Bullet extends Entity {
+public class Bullet extends Entity implements Disposable {
 
     protected Sprite bullet;
     protected int dame;
@@ -117,5 +118,11 @@ public class Bullet extends Entity {
 
     public int getDame() {
         return dame;
+    }
+
+    @Override
+    public void dispose() {
+        target.dispose();
+        bullet.getTexture().dispose();
     }
 }

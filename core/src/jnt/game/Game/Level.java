@@ -1,12 +1,16 @@
 package jnt.game.Game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
+import jnt.game.Entity.enemy.BossEnemy;
+import jnt.game.Entity.enemy.NinjaEnemy;
 import jnt.game.Entity.enemy.NormalEnemy;
+import jnt.game.Entity.enemy.TankerEnemy;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Level {
+public class Level implements Disposable {
 
     private Map map;
     private float coolDown;
@@ -31,26 +35,11 @@ public class Level {
 
     public void createLevel1() {
 
-        // Add 4 enemies
-//        enemieS.push(new BossEnemy());
-//        enemieS.push(new BossEnemy());
-//        enemieS.push(new BossEnemy());
-//        enemieS.push(new BossEnemy());
-//
-//        enemieS.push(new TankerEnemy());
-//        enemieS.push(new TankerEnemy());
-//        enemieS.push(new TankerEnemy());
-//        enemieS.push(new TankerEnemy());
-//
-//        enemieS.push(new NinjaEnemy());
-//        enemieS.push(new NinjaEnemy());
-//        enemieS.push(new NinjaEnemy());
-//        enemieS.push(new NinjaEnemy());
-
-        enemieS.push(new NormalEnemy());
-        enemieS.push(new NormalEnemy());
-        enemieS.push(new NormalEnemy());
-        enemieS.push(new NormalEnemy());
+        // Add 4 enemies for each type
+        for (int i=0; i<4; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<4; i++) enemieS.push(new NinjaEnemy());
+        for (int i=0; i<4; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<4; i++) enemieS.push(new BossEnemy());
 
         //
         if(enemies.size() == 0) isSet = false;
@@ -101,5 +90,11 @@ public class Level {
     }
     public boolean isDecreaseHealth() {
         return decreaseHealth;
+    }
+
+    @Override
+    public void dispose() {
+        map.dispose();
+        for(NormalEnemy enemy : enemies) enemy.dispose();
     }
 }

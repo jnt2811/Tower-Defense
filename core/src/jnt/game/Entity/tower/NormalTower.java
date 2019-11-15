@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.Entity;
 import jnt.game.Entity.bullet.Bullet;
 import jnt.game.Entity.enemy.NormalEnemy;
 
 import java.util.ArrayList;
 
-public class NormalTower extends Entity {
+public class NormalTower extends Entity implements Disposable {
 
     protected Sprite towerBase, towerGun;
     protected int range;
@@ -150,5 +151,12 @@ public class NormalTower extends Entity {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
             coolDown = 0.1f;
         }
+    }
+
+    @Override
+    public void dispose() {
+        towerBase.getTexture().dispose();
+        towerGun.getTexture().dispose();
+        for(Bullet bullet : bullets) bullet.dispose();
     }
 }
