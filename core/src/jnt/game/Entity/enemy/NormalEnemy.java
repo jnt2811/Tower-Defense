@@ -27,8 +27,8 @@ public class NormalEnemy extends Entity {
         enemy.setSize(60,60);
 
         // Default
-        blood = 10000;
-        speed = 5;
+        blood = 10;
+        speed = 3;
         setActive(true);
 
         greenBlood = new Sprite(new Texture(Gdx.files.internal("greenBlood.png")));

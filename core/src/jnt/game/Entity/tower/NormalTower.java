@@ -150,6 +150,5 @@ public class NormalTower extends Entity {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
             coolDown = 0.1f;
         }
-        System.out.println(coolDown);
     }
 }

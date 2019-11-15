@@ -6,7 +6,6 @@ public abstract class Entity {
 
     protected int id;
     protected double x, y;
-    protected float time = 0;
     protected boolean active;
 
     public Entity() {

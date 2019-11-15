@@ -9,7 +9,7 @@ import java.util.Stack;
 public class Level {
 
     private Map map;
-    private float time;
+    private float coolDown;
     private ArrayList<NormalEnemy> enemies;
     private Stack<NormalEnemy> enemieS;
     private boolean isSet = false, decreaseHealth = false;
@@ -17,6 +17,8 @@ public class Level {
     public Level() {
         enemies = new ArrayList<>();
         enemieS = new Stack<>();
+
+        coolDown = 0.5f;
     }
 
     public void setLevel(int level) {
@@ -45,27 +47,24 @@ public class Level {
 //        enemieS.push(new NinjaEnemy());
 //        enemieS.push(new NinjaEnemy());
 
-
         enemieS.push(new NormalEnemy());
         enemieS.push(new NormalEnemy());
         enemieS.push(new NormalEnemy());
         enemieS.push(new NormalEnemy());
 
         //
-        enemies.add(enemieS.pop());
-
         if(enemies.size() == 0) isSet = false;
     }
 
 
     public void draw(SpriteBatch batch, float delta) {
 
-        time += delta;
+        coolDown -= delta;
 
-        if(time > 0.5) {
+        if(coolDown <= 0) {
             if(!enemieS.isEmpty())
                 enemies.add(enemieS.pop());
-            time = 0;
+            coolDown = 0.5f;
         }
 
         for (NormalEnemy enemy : enemies) enemy.draw(batch, delta);
