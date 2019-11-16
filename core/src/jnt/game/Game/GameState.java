@@ -1,59 +1,56 @@
 package jnt.game.Game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import jnt.game.Entity.enemy.NormalEnemy;
-import jnt.game.Entity.tower.MortarTower;
-import jnt.game.Entity.tower.NormalTower;
-import jnt.game.Entity.tower.RifleTower;
-import jnt.game.Entity.tower.SmgTower;
-
-import java.util.ArrayList;
+import jnt.game.Entity.tower.BuildTower;
+import jnt.game.Map.Map;
+import jnt.game.Map.Tile;
+import jnt.game.Map.TileGrid;
+import jnt.game.Map.TileType;
 
 public class GameState implements Disposable {
 
     private Map map;
-    private ArrayList<NormalTower> towers;
+    private TileGrid tileGrid;
     private Level level;
-    private Texture bugFixed;
+    private BuildTower buildTower;
+    private BitmapFont healthNum, goldNum;
+    private Tile bugFixed;
 
     private int health = 10, gold = 0;
-    private BitmapFont healthNum, goldNum;
 
     public GameState() {
 
-        bugFixed = new Texture(Gdx.files.internal("grass.png"));
-
         map = new Map();
+        tileGrid = new TileGrid(map.map);
 
         level = new Level();
         level.setLevel(1);
 
+        buildTower = new BuildTower(level.getEnemies(), tileGrid);
+
+        bugFixed = new Tile(0,0, TileType.Rock1);
+
         healthNum = new BitmapFont(Gdx.files.internal("health.fnt"));
         goldNum = new BitmapFont(Gdx.files.internal("health.fnt"));
-
-        towers = new ArrayList<>();
-
-        // Add 4 towers
-        towers.add(new NormalTower(500, 500, level.getEnemies()));
-        towers.add(new SmgTower(100, 300, level.getEnemies()));
-        towers.add(new RifleTower(700, 300, level.getEnemies()));
-        towers.add(new MortarTower(300, 100, level.getEnemies()));
         
     }
 
     public void render(SpriteBatch batch, float delta) {
+        try {
+            createMap(batch);
+            createTowers(batch, delta);
+            createEnemies(batch, delta);
+            createInfo(batch);
+            createBugFixed(batch);
 
-        createMap(batch);
-//        createTowers(batch, delta);
-        createEnemies(batch, delta);
-        createInfo(batch);
-        createBugFixed(batch);
-
-        update();
+            update();
+        }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 
@@ -68,7 +65,7 @@ public class GameState implements Disposable {
     public void createMap(SpriteBatch batch) {
         batch.begin();
 
-        map.draw(batch);
+        tileGrid.draw(batch);
 
         batch.end();
     }
@@ -77,8 +74,7 @@ public class GameState implements Disposable {
     public void createTowers(SpriteBatch batch, float delta) {
         batch.begin();
 
-        for(NormalTower tower : towers)
-            tower.draw(batch,delta);
+        buildTower.build(batch, delta);
 
         batch.end();
     }
@@ -105,19 +101,19 @@ public class GameState implements Disposable {
     public void createBugFixed(SpriteBatch batch) {
         batch.begin();
 
-        batch.draw(bugFixed, 0,0);
+        bugFixed.draw(batch);
 
         batch.end();
     }
 
     @Override
     public void dispose() {
-        map.dispose();
         bugFixed.dispose();
         healthNum.dispose();
         goldNum.dispose();
         level.dispose();
-        for(NormalTower tower : towers) tower.dispose();
+        buildTower.dispose();
+        tileGrid.dispose();
     }
 
     public int getHealth() {

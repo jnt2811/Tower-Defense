@@ -6,6 +6,7 @@ import jnt.game.Entity.enemy.BossEnemy;
 import jnt.game.Entity.enemy.NinjaEnemy;
 import jnt.game.Entity.enemy.NormalEnemy;
 import jnt.game.Entity.enemy.TankerEnemy;
+import jnt.game.Map.Map;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -94,7 +95,6 @@ public class Level implements Disposable {
 
     @Override
     public void dispose() {
-        map.dispose();
         for(NormalEnemy enemy : enemies) enemy.dispose();
     }
 }

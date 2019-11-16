@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import jnt.game.Entity.enemy.NormalEnemy;
+import jnt.game.Map.Tile;
 
 import java.util.ArrayList;
 
 public class MortarTower extends NormalTower {
-    public MortarTower(int x, int y, ArrayList<NormalEnemy> enemies) {
+    public MortarTower(ArrayList<NormalEnemy> enemies, Tile place) {
 
-        super(x, y, enemies);
+        super(enemies, place);
 
         towerBase = new Sprite(new Texture(Gdx.files.internal("towerBase4.png")));
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun4.png")));

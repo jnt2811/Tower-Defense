@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.Entity;
-import jnt.game.Game.Map;
+import jnt.game.Map.Map;
 
 public class NormalEnemy extends Entity implements Disposable {
 
@@ -20,7 +20,7 @@ public class NormalEnemy extends Entity implements Disposable {
     private int m, n;
     private int direction1, direction2, turn;
     private int[][] Valid;
-    private boolean finished = false;
+    private boolean finished = false, random = false;
 
     public NormalEnemy() {
 
@@ -141,9 +141,9 @@ public class NormalEnemy extends Entity implements Disposable {
     public void move() {
 
         if(valid(m,n + 1) && (Map.map[m][n+1] == 1 || Map.map[m][n+1] == 3) && Valid[m][n+1] != -1) turn = 1; //RIGHT
-        if(valid(m,n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 3) && Valid[m][n-1] != -1) turn = 2; //LEFT
-        if(valid(m + 1,n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 3) && Valid[m+1][n] != -1) turn = 3; //UP
-        if(valid(m - 1,n) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 3) && Valid[m-1][n] != -1) turn = 4; //DOWN
+        else if(valid(m,n - 1) && (Map.map[m][n-1] == 1 || Map.map[m][n-1] == 3) && Valid[m][n-1] != -1) turn = 2; //LEFT
+        else if(valid(m + 1,n) && (Map.map[m+1][n] == 1 || Map.map[m+1][n] == 3) && Valid[m+1][n] != -1) turn = 3; //UP
+        else if(valid(m - 1,n) && (Map.map[m-1][n] == 1 || Map.map[m-1][n] == 3) && Valid[m-1][n] != -1) turn = 4; //DOWN
 
         if(turn == 1) {
             if(x != enemy.getWidth()*(n+1)) x+=speed;
@@ -161,6 +161,7 @@ public class NormalEnemy extends Entity implements Disposable {
             direction2 = 1;
             turn = 0;
         }
+
         if(turn == 2) {
             if(x != enemy.getWidth()*(n-1)) x-=speed;
             if(x <= enemy.getWidth()*(n-1)) {
@@ -177,6 +178,7 @@ public class NormalEnemy extends Entity implements Disposable {
             direction2 = 2;
             turn = 0;
         }
+
         if(turn == 3) {
             if(y != enemy.getHeight()*(m+1)) y+=speed;
             if(y >= enemy.getHeight()*(m+1)) {
@@ -193,6 +195,7 @@ public class NormalEnemy extends Entity implements Disposable {
             direction2 = 3;
             turn = 0;
         }
+
         if(turn == 4) {
             if(y != enemy.getHeight()*(m-1)) y-=speed;
             if(y <= enemy.getHeight()*(m-1)) {

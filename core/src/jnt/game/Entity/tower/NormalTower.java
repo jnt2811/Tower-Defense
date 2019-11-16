@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.Entity;
 import jnt.game.Entity.bullet.Bullet;
 import jnt.game.Entity.enemy.NormalEnemy;
+import jnt.game.Map.Tile;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,13 @@ public class NormalTower extends Entity implements Disposable {
     private ArrayList<NormalEnemy> enemies, targets;
     private ArrayList<Bullet> bullets;
     private float move;
+    private boolean placed = false;
 
-    public NormalTower(double x, double y, ArrayList<NormalEnemy> enemies) {
+    public NormalTower(ArrayList<NormalEnemy> enemies, Tile place) {
 
-        this.x = x;
-        this.y = y;
         this.enemies = enemies;
+        this.x = place.getX();
+        this.y = place.getY();
 
         towerBase = new Sprite(new Texture(Gdx.files.internal("towerBase1.png")));
         towerGun = new Sprite(new Texture(Gdx.files.internal("towerGun1.png")));
@@ -73,11 +75,14 @@ public class NormalTower extends Entity implements Disposable {
     @Override
     public void update() {
 
-        // Lock the Target
-        lockTarget(enemies);
+        if(placed) {
 
-        // Unlock the Target
-        unlockTarget(targets);
+            // Lock the Target
+            lockTarget(enemies);
+
+            // Unlock the Target
+            unlockTarget(targets);
+        }
     }
 
 
@@ -151,6 +156,13 @@ public class NormalTower extends Entity implements Disposable {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
             coolDown = 0.1f;
         }
+    }
+
+    public boolean isPlaced() {
+        return placed;
+    }
+    public void setPlaced(boolean placed) {
+        this.placed = placed;
     }
 
     @Override
