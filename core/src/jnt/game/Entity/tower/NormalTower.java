@@ -10,14 +10,15 @@ import jnt.game.Entity.bullet.Bullet;
 import jnt.game.Entity.enemy.NormalEnemy;
 import jnt.game.Map.Tile;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 public class NormalTower extends Entity implements Disposable {
 
     protected Sprite towerBase, towerGun;
-    protected int range;
+    protected int range, price;
     protected String type;
-    protected float coolDown;
+    protected float coolDown, timer;
 
     private ArrayList<NormalEnemy> enemies, targets;
     private ArrayList<Bullet> bullets;
@@ -36,7 +37,9 @@ public class NormalTower extends Entity implements Disposable {
         // Default
         type = "normal";
         range = 200;
-        coolDown = 0.1f;
+        price = 5;
+        coolDown = 0.2f;
+        timer = coolDown;
 
         bullets = new ArrayList<>();
         targets = new ArrayList<>();
@@ -151,18 +154,32 @@ public class NormalTower extends Entity implements Disposable {
         }
 
         // Always Add an Bullet to the Bullets Array if It's Empty
-        coolDown -= delta;
-        if(coolDown <= 0) {
+        timer -= delta;
+        if(timer <= 0) {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
-            coolDown = 0.1f;
+            timer = coolDown;
         }
     }
+
+//    public int receiveReward() {
+//        for(NormalEnemy enemy : enemies) {
+//            if(!enemy.isActive()) {
+////                System.out.println("ok");
+//                return enemy.getReward();
+//            }
+//        }
+//        return 0;
+//    }
 
     public boolean isPlaced() {
         return placed;
     }
     public void setPlaced(boolean placed) {
         this.placed = placed;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override

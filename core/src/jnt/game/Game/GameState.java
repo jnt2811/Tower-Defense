@@ -1,9 +1,11 @@
 package jnt.game.Game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import jnt.game.Entity.tower.NormalTower;
 import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
 import jnt.game.Map.TileGrid;
@@ -14,41 +16,38 @@ public class GameState implements Disposable {
     private Map map;
     private TileGrid tileGrid;
     private Level level;
+    private PlayerInfo player;
     private BuildTower buildTower;
     private Tile bugFixed;
-    private PlayerInfo player;
-    private BitmapFont healthNum, goldNum;
-
-
-    private int health = 10, gold = 50;
 
     public GameState() {
 
         map = new Map();
         tileGrid = new TileGrid(map.map);
 
-        level = new Level();
-        level.setLevel(1);
-
-        buildTower = new BuildTower(level.getEnemies(), tileGrid);
-
-        bugFixed = new Tile(0,0, TileType.Rock1);
-
         player = new PlayerInfo();
 
-        healthNum = new BitmapFont(Gdx.files.internal("health.fnt"));
-        goldNum = new BitmapFont(Gdx.files.internal("health.fnt"));
+        level = new Level(player);
+        level.setLevel(1);
+
+        buildTower = new BuildTower(level.getEnemies(), tileGrid, player);
+
+        bugFixed = new Tile(0,0, TileType.Rock1);
     }
 
     public void render(SpriteBatch batch, float delta) {
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
+
+        // Create All Objects
         try {
             createMap(batch);
             createTowers(batch, delta);
-//            createEnemies(batch, delta);
+            createEnemies(batch, delta);
             createInfo(batch);
             createBugFixed(batch);
 
-            update();
+//            update();
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -56,12 +55,13 @@ public class GameState implements Disposable {
     }
 
 
-    public void update() {
-        if(level.isDecreaseHealth()) {
-            level.setDecreaseHealth(false);
-            health--;
-        }
-    }
+//    public void update() {
+//
+//        if(level.isDecreaseHealth()) {
+//            level.setDecreaseHealth(false);
+//            player.decreaseHealth();
+//        }
+//    }
 
 
     public void createMap(SpriteBatch batch) {
@@ -96,9 +96,6 @@ public class GameState implements Disposable {
 
         player.draw(batch);
 
-        healthNum.draw(batch, "" + health, 1410, 860);
-        goldNum.draw(batch, "" + gold, 1410, 740);
-
         batch.end();
     }
 
@@ -117,11 +114,9 @@ public class GameState implements Disposable {
         buildTower.dispose();
         tileGrid.dispose();
         player.dispose();
-        healthNum.dispose();
-        goldNum.dispose();
     }
 
     public int getHealth() {
-        return health;
+        return player.getHealth();
     }
 }

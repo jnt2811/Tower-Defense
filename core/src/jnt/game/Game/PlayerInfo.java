@@ -16,7 +16,7 @@ public class PlayerInfo implements Disposable {
 
         // Default
         health = 10;
-        gold = 100;
+        gold = 50;
 
         // Textures
         heart = new Texture(Gdx.files.internal("heart.png"));
@@ -29,7 +29,35 @@ public class PlayerInfo implements Disposable {
 
     public void draw(SpriteBatch batch) {
 
-        batch.draw(heart,800, 500);
+        batch.draw(heart,1240, 780);
+        batch.draw(coin, 1240, 660);
+
+        healthNum.draw(batch, "" + health, 1410, 860);
+        goldNum.draw(batch, "" + gold, 1410, 740);
+    }
+
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void decreaseHealth() {
+        health--;
+    }
+    public void decreaseGold(int price) {
+        gold -= price;
+    }
+    public void increaseGold(int reward) {
+        gold += reward;
     }
 
     @Override

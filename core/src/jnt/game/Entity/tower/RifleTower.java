@@ -18,6 +18,9 @@ public class RifleTower extends NormalTower {
 
         // Default
         type = "rifle";
-        range = 250;
+        range = 200;
+        price = 20;
+        coolDown = 0.2f;
+        timer = coolDown;
     }
 }

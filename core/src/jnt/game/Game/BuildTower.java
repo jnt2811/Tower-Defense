@@ -29,11 +29,13 @@ public class BuildTower implements Disposable {
     private NormalTower tempTower;
     private boolean holdingTower;
     private int mouseX, mouseY;
+    private PlayerInfo player;
 
-    public BuildTower(ArrayList<NormalEnemy> enemies, TileGrid tileGrid) {
+    public BuildTower(ArrayList<NormalEnemy> enemies, TileGrid tileGrid, PlayerInfo player) {
 
         this.enemies = enemies;
         this.tileGrid = tileGrid;
+        this.player = player;
 
         tower1Button = new Sprite(new Texture(Gdx.files.internal("tower1Button.png")));
         tower2Button = new Sprite(new Texture(Gdx.files.internal("tower2Button.png")));
@@ -46,9 +48,8 @@ public class BuildTower implements Disposable {
         tower3Button.setPosition(1230, 330);
         tower4Button.setPosition(1410, 330);
 
-        // Arrays
+        // Array
         towers = new ArrayList<>();
-        enemies = new ArrayList<>();
 
         //
         this.tempTower = null;
@@ -74,29 +75,7 @@ public class BuildTower implements Disposable {
         if(checkIn(tower3Button)) pickTower(new RifleTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
         if(checkIn(tower4Button)) pickTower(new MortarTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
 
-        // Place the Tower
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower != null) {
-
-            if(checkValid()) {
-
-                towers.add(tempTower);
-                for (NormalTower tower : towers) {
-                    tower.setPlaced(true);
-                    tileGrid.setTile(mouseX/60, mouseY/60, TileType.Grass1);
-                }
-
-
-                holdingTower = false;
-                tempTower = null;
-            }
-        }
-
-        // Abort !
-        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && tempTower != null) {
-            holdingTower = false;
-            tempTower = null;
-        }
-
+        // Tower picked up follows the mouse
         if(holdingTower && checkValid()) {
 
             tempTower.setX((int)getMouseTile().getX());
@@ -104,26 +83,49 @@ public class BuildTower implements Disposable {
             tempTower.draw(batch, delta);
             tempTower.setPlaced(false);
         }
-    }
 
+        // Place the Tower
+        if(placeTower()) {
+
+            towers.add(tempTower);
+
+            //
+            tempTower.setPlaced(true);
+            tileGrid.setTile(mouseX/60, mouseY/60, TileType.Grass1);
+            player.decreaseGold(tempTower.getPrice());
+
+            //
+            holdingTower = false;
+            tempTower = null;
+        }
+
+        // Abort An Order!
+        if(abortOrder()) {
+            holdingTower = false;
+            tempTower = null;
+        }
+    }
 
     public void pickTower(NormalTower tower) {
+
         tempTower = tower;
-        holdingTower = true;
+
+        if(checkGold(tempTower)) holdingTower = true;
+        else tempTower = null;
     }
 
+    public boolean placeTower() {
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower != null && checkValid()) return true;
+        return false;
+    }
 
+    // Check tile, tower must be placed in Grass tile, this function is used in placeTower
     public boolean checkValid() {
         if(tileGrid.getTile(mouseY/60, mouseX/60).getTileType() == TileType.Grass) return true;
         return false;
     }
 
-
-    public Tile getMouseTile() {
-        return tileGrid.getTile(mouseY/60, mouseX/60);
-    }
-
-
+    // Check the mouse if it is clicked in towerButton's area
     public boolean checkIn(Sprite sprite) {
         if( mouseX >= sprite.getX() && mouseX <= (sprite.getX() + sprite.getWidth())
                 && mouseY >= sprite.getY() &&  mouseY <= (sprite.getY() + sprite.getHeight())
@@ -131,6 +133,20 @@ public class BuildTower implements Disposable {
         return false;
     }
 
+    public boolean abortOrder() {
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && tempTower != null) return true;
+        return false;
+    }
+
+    // PLayer can buy more towers if they have enough gold, this function is used in pickTower
+    public boolean checkGold(NormalTower tempTower) {
+        if(player.getGold() - tempTower.getPrice() >= 0) return true;
+        return false;
+    }
+
+    public Tile getMouseTile() {
+        return tileGrid.getTile(mouseY/60, mouseX/60);
+    }
 
     @Override
     public void dispose() {

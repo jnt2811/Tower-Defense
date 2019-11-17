@@ -12,6 +12,7 @@ public class TankerEnemy extends  NormalEnemy {
         // Default
         blood = 500;
         speed = 2;
+        reward = 15;
 
         // Calculate One Pixel compared to Blood Bar's Width
         onePixel = greenBlood.getWidth() / blood;

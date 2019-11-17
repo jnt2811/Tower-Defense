@@ -18,6 +18,9 @@ public class MortarTower extends NormalTower {
 
         // Default
         type = "mortar";
-        range = 350;
+        range = 250;
+        price = 25;
+        coolDown = 0.4f;
+        timer = coolDown;
     }
 }

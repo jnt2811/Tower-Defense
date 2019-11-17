@@ -11,7 +11,7 @@ import jnt.game.Map.Map;
 public class NormalEnemy extends Entity implements Disposable {
 
     protected Sprite enemy;
-    protected int blood;
+    protected int blood, reward;
     protected float speed;
     protected float onePixel;
     protected Sprite greenBlood, redBlood;
@@ -29,7 +29,8 @@ public class NormalEnemy extends Entity implements Disposable {
 
         // Default
         blood = 10;
-        speed = 7;
+        speed = 3;
+        reward = 5;
         setActive(true);
 
         greenBlood = new Sprite(new Texture(Gdx.files.internal("greenBlood.png")));
@@ -171,7 +172,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     n--;
                 }
                 else if(Map.map[m][n-1] == 3) {
-                    if(isActive()) setActive(false);
+//                    if(isActive()) setActive(false);
                     if(!finished) finished = true;
                 }
             }
@@ -188,7 +189,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     m++;
                 }
                 else if(Map.map[m+1][n] == 3) {
-                    if(isActive()) setActive(false);
+//                    if(isActive()) setActive(false);
                     if(!finished) finished = true;
                 }
             }
@@ -205,7 +206,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     m--;
                 }
                 else if(Map.map[m-1][n] == 3) {
-                    if(isActive()) setActive(false);
+//                    if(isActive()) setActive(false);
                     if(!finished) finished = true;
                 }
             }
@@ -241,6 +242,13 @@ public class NormalEnemy extends Entity implements Disposable {
     }
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public int getReward() {
+        return reward;
+    }
+    public void setReward(int reward) {
+        this.reward = reward;
     }
 
     @Override
