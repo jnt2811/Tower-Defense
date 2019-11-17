@@ -3,6 +3,7 @@ package jnt.game.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,6 +31,7 @@ public class BuildTower implements Disposable {
     private boolean holdingTower;
     private int mouseX, mouseY;
     private PlayerInfo player;
+    private Music click, abort;
 
     public BuildTower(ArrayList<NormalEnemy> enemies, TileGrid tileGrid, PlayerInfo player) {
 
@@ -41,6 +43,9 @@ public class BuildTower implements Disposable {
         tower2Button = new Sprite(new Texture(Gdx.files.internal("tower2Button.png")));
         tower3Button = new Sprite(new Texture(Gdx.files.internal("tower3Button.png")));
         tower4Button = new Sprite(new Texture(Gdx.files.internal("tower4Button.png")));
+
+        click = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
+        abort = Gdx.audio.newMusic(Gdx.files.internal("abort.mp3"));
 
         // Default
         tower1Button.setPosition(1230, 510);
@@ -87,6 +92,8 @@ public class BuildTower implements Disposable {
         // Place the Tower
         if(placeTower()) {
 
+            click.play();
+
             towers.add(tempTower);
 
             //
@@ -101,12 +108,17 @@ public class BuildTower implements Disposable {
 
         // Abort An Order!
         if(abortOrder()) {
+
+            abort.play();
+
             holdingTower = false;
             tempTower = null;
         }
     }
 
     public void pickTower(NormalTower tower) {
+
+        click.play();
 
         tempTower = tower;
 

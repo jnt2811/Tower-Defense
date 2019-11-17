@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import jnt.game.Button.ButtonManagement;
 import jnt.game.Entity.tower.NormalTower;
 import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
@@ -19,6 +20,7 @@ public class GameState implements Disposable {
     private PlayerInfo player;
     private BuildTower buildTower;
     private Tile bugFixed;
+    private ButtonManagement buttons;
 
     public GameState() {
 
@@ -27,7 +29,9 @@ public class GameState implements Disposable {
 
         player = new PlayerInfo();
 
-        level = new Level(player);
+        buttons = new ButtonManagement("game screen");
+
+        level = new Level(player, buttons);
         level.setLevel(1);
 
         buildTower = new BuildTower(level.getEnemies(), tileGrid, player);
@@ -37,8 +41,6 @@ public class GameState implements Disposable {
 
     public void render(SpriteBatch batch, float delta) {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) Gdx.app.exit();
-
         // Create All Objects
         try {
             createMap(batch);
@@ -46,22 +48,12 @@ public class GameState implements Disposable {
             createEnemies(batch, delta);
             createInfo(batch);
             createBugFixed(batch);
-
-//            update();
+            createButtons(batch);
         }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
     }
-
-
-//    public void update() {
-//
-//        if(level.isDecreaseHealth()) {
-//            level.setDecreaseHealth(false);
-//            player.decreaseHealth();
-//        }
-//    }
 
 
     public void createMap(SpriteBatch batch) {
@@ -107,6 +99,15 @@ public class GameState implements Disposable {
         batch.end();
     }
 
+    public void createButtons(SpriteBatch batch) {
+        batch.begin();
+
+        buttons.draw(batch);
+        buttons.update();
+
+        batch.end();
+    }
+
     @Override
     public void dispose() {
         bugFixed.dispose();
@@ -114,6 +115,7 @@ public class GameState implements Disposable {
         buildTower.dispose();
         tileGrid.dispose();
         player.dispose();
+        buttons.dispose();
     }
 
     public int getHealth() {

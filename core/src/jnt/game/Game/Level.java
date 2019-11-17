@@ -1,7 +1,10 @@
 package jnt.game.Game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
+import jnt.game.Button.ButtonManagement;
 import jnt.game.Entity.enemy.BossEnemy;
 import jnt.game.Entity.enemy.NinjaEnemy;
 import jnt.game.Entity.enemy.NormalEnemy;
@@ -19,8 +22,10 @@ public class Level implements Disposable {
     private Stack<NormalEnemy> enemieS;
     private boolean done1 = false, done2 = false, done3 = false;
     private PlayerInfo player;
+    private Music warning;
+    private ButtonManagement buttons;
 
-    public Level(PlayerInfo player) {
+    public Level(PlayerInfo player, ButtonManagement buttons) {
 
         this.player = player;
 
@@ -28,12 +33,16 @@ public class Level implements Disposable {
         enemieS = new Stack<>();
 
         coolDown = 0.5f;
+
+        warning = Gdx.audio.newMusic(Gdx.files.internal("warning.mp3"));
+
+        this.buttons = buttons;
     }
 
     public void setLevel(int level) {
         if(level == 1) createLevel1();
-        if(level == 2) createLevel1();
-        if(level == 3) createLevel1();
+        if(level == 2) createLevel2();
+        if(level == 3) createLevel3();
     }
 
 
@@ -46,24 +55,50 @@ public class Level implements Disposable {
         for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
 
         //
-        if(enemies.size() == 0) done1 = false;
+        if(enemies.size() == 0) done1 = true;
+    }
+    public void createLevel2() {
+
+        // Add 4 enemies for each type
+        for (int i=0; i<0; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
+        for (int i=0; i<0; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
+
+        //
+        if(enemies.size() == 0) done2 = true;
+    }
+    public void createLevel3() {
+
+        // Add 4 enemies for each type
+        for (int i=0; i<0; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
+        for (int i=0; i<0; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
+
+        //
+        if(enemies.size() == 0) done1 = true;
     }
 
 
     public void draw(SpriteBatch batch, float delta) {
+//        System.out.println(buttonManagement.getStartWave());
 
-        // Add Enemies to the Array
-        coolDown -= delta;
-        if(coolDown <= 0) {
-            if(!enemieS.isEmpty())
-                enemies.add(enemieS.pop());
-            coolDown = 0.4f;
+        if (buttons.getStartWave()) {
+
+            // Add Enemies to the Array
+            coolDown -= delta;
+            if(coolDown <= 0) {
+                if(!enemieS.isEmpty())
+                    enemies.add(enemieS.pop());
+                coolDown = 0.4f;
+            }
+
+            // Draw Enemies
+            for (NormalEnemy enemy : enemies) enemy.draw(batch, delta);
+
+            update();
         }
-
-        // Draw Enemies
-        for (NormalEnemy enemy : enemies) enemy.draw(batch, delta);
-
-        update();
     }
 
     public void update() {
@@ -72,6 +107,8 @@ public class Level implements Disposable {
 
             // Decrease Player's Health if enemy reaches the final point
             if(enemies.get(i).isFinished()) {
+
+                warning.play();
 
                 player.decreaseHealth();
                 enemies.get(i).setFinished(false);
