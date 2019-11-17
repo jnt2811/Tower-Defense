@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
-import jnt.game.Entity.tower.BuildTower;
 import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
 import jnt.game.Map.TileGrid;
@@ -16,10 +15,12 @@ public class GameState implements Disposable {
     private TileGrid tileGrid;
     private Level level;
     private BuildTower buildTower;
-    private BitmapFont healthNum, goldNum;
     private Tile bugFixed;
+    private PlayerInfo player;
+    private BitmapFont healthNum, goldNum;
 
-    private int health = 10, gold = 0;
+
+    private int health = 10, gold = 50;
 
     public GameState() {
 
@@ -33,16 +34,17 @@ public class GameState implements Disposable {
 
         bugFixed = new Tile(0,0, TileType.Rock1);
 
+        player = new PlayerInfo();
+
         healthNum = new BitmapFont(Gdx.files.internal("health.fnt"));
         goldNum = new BitmapFont(Gdx.files.internal("health.fnt"));
-        
     }
 
     public void render(SpriteBatch batch, float delta) {
         try {
             createMap(batch);
             createTowers(batch, delta);
-            createEnemies(batch, delta);
+//            createEnemies(batch, delta);
             createInfo(batch);
             createBugFixed(batch);
 
@@ -92,6 +94,8 @@ public class GameState implements Disposable {
     public void createInfo(SpriteBatch batch) {
         batch.begin();
 
+        player.draw(batch);
+
         healthNum.draw(batch, "" + health, 1410, 860);
         goldNum.draw(batch, "" + gold, 1410, 740);
 
@@ -109,11 +113,12 @@ public class GameState implements Disposable {
     @Override
     public void dispose() {
         bugFixed.dispose();
-        healthNum.dispose();
-        goldNum.dispose();
         level.dispose();
         buildTower.dispose();
         tileGrid.dispose();
+        player.dispose();
+        healthNum.dispose();
+        goldNum.dispose();
     }
 
     public int getHealth() {

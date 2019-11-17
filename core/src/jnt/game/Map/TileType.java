@@ -2,7 +2,8 @@ package jnt.game.Map;
 
 public enum TileType {
 
-    Grass("grass"), Land("land"), Silver("silver"),
+    Grass("grass"), Grass1("grass1"),
+    Land("land"), Silver("silver"),
     Point("point"),
     Tree("tree"), Tree1("tree1"),
     Rock("rock"), Rock1("rock1"),

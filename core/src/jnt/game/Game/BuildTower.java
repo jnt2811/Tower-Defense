@@ -1,4 +1,4 @@
-package jnt.game.Entity.tower;
+package jnt.game.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,22 +9,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Entity.enemy.NormalEnemy;
+import jnt.game.Entity.tower.MortarTower;
+import jnt.game.Entity.tower.NormalTower;
+import jnt.game.Entity.tower.RifleTower;
+import jnt.game.Entity.tower.SmgTower;
+import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
 import jnt.game.Map.TileGrid;
 import jnt.game.Map.TileType;
 
 import java.util.ArrayList;
 
-public class BuildTower extends InputAdapter implements Disposable {
+public class BuildTower implements Disposable {
 
-    private Sprite tower1Button, tower2Button,tower3Button,tower4Button;
+    private Sprite tower1Button, tower2Button, tower3Button,tower4Button;
     private ArrayList<NormalTower> towers;
     private ArrayList<NormalEnemy> enemies;
     private TileGrid tileGrid;
     private NormalTower tempTower;
     private boolean holdingTower;
     private int mouseX, mouseY;
-    private MouseJointDef jointDef;
 
     public BuildTower(ArrayList<NormalEnemy> enemies, TileGrid tileGrid) {
 
@@ -49,12 +53,6 @@ public class BuildTower extends InputAdapter implements Disposable {
         //
         this.tempTower = null;
         this.holdingTower = false;
-
-        //
-        jointDef = new MouseJointDef();
-//        jointDef.bodyA = ground;
-        jointDef.collideConnected = true;
-        jointDef.maxForce = 500;
     }
 
     public void build(SpriteBatch batch, float delta) {
@@ -64,30 +62,43 @@ public class BuildTower extends InputAdapter implements Disposable {
         tower3Button.draw(batch);
         tower4Button.draw(batch);
 
+        for (NormalTower tower : towers) tower.draw(batch,delta);
+
         // Get mouse's Coordinates
         mouseX = Gdx.input.getX();
         mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if( mouseX >= tower1Button.getX() && mouseX <= (tower1Button.getX() + tower1Button.getWidth())
-                && mouseY >= tower1Button.getY() &&  mouseY <= (tower1Button.getY() + tower1Button.getHeight()) ) {
+        // Pick up the Tower
+        if(checkIn(tower1Button)) pickTower(new NormalTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower2Button)) pickTower(new SmgTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower3Button)) pickTower(new RifleTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower4Button)) pickTower(new MortarTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
 
-            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower == null) {
+        // Place the Tower
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower != null) {
 
-                pickTower(new NormalTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+            if(checkValid()) {
 
-                System.out.println("in");
+                towers.add(tempTower);
+                for (NormalTower tower : towers) {
+                    tower.setPlaced(true);
+                    tileGrid.setTile(mouseX/60, mouseY/60, TileType.Grass1);
+                }
+
+
+                holdingTower = false;
+                tempTower = null;
             }
         }
 
-//        if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-//
-//            if(checkValid(mouseX, mouseY))
-//                towers.add(new NormalTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
-//        }
+        // Abort !
+        if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && tempTower != null) {
+            holdingTower = false;
+            tempTower = null;
+        }
 
-        for (NormalTower tower : towers) tower.draw(batch,delta);
+        if(holdingTower && checkValid()) {
 
-        if(holdingTower && checkValid(mouseX, mouseY)) {
             tempTower.setX((int)getMouseTile().getX());
             tempTower.setY((int)getMouseTile().getY());
             tempTower.draw(batch, delta);
@@ -102,9 +113,9 @@ public class BuildTower extends InputAdapter implements Disposable {
     }
 
 
-    public boolean checkValid(int mouseX, int mouseY) {
-        if(tileGrid.getTile(mouseY/60, mouseX/60).getTileType() != TileType.Grass) return false;
-        return true;
+    public boolean checkValid() {
+        if(tileGrid.getTile(mouseY/60, mouseX/60).getTileType() == TileType.Grass) return true;
+        return false;
     }
 
 
@@ -113,28 +124,22 @@ public class BuildTower extends InputAdapter implements Disposable {
     }
 
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return true;
+    public boolean checkIn(Sprite sprite) {
+        if( mouseX >= sprite.getX() && mouseX <= (sprite.getX() + sprite.getWidth())
+                && mouseY >= sprite.getY() &&  mouseY <= (sprite.getY() + sprite.getHeight())
+                && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower == null) return true;
+        return false;
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return true;
-    }
 
     @Override
     public void dispose() {
         for(NormalTower tower : towers) tower.dispose();
+        tempTower.dispose();
+        tileGrid.dispose();
+        tower1Button.getTexture().dispose();
+        tower2Button.getTexture().dispose();
+        tower3Button.getTexture().dispose();
+        tower4Button.getTexture().dispose();
     }
 }

@@ -37,10 +37,10 @@ public class Level implements Disposable {
     public void createLevel1() {
 
         // Add 4 enemies for each type
-        for (int i=0; i<4; i++) enemieS.push(new NormalEnemy());
-        for (int i=0; i<4; i++) enemieS.push(new NinjaEnemy());
+        for (int i=0; i<10; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<5; i++) enemieS.push(new NinjaEnemy());
         for (int i=0; i<4; i++) enemieS.push(new TankerEnemy());
-        for (int i=0; i<4; i++) enemieS.push(new BossEnemy());
+        for (int i=0; i<2; i++) enemieS.push(new BossEnemy());
 
         //
         if(enemies.size() == 0) isSet = false;
@@ -54,7 +54,7 @@ public class Level implements Disposable {
         if(coolDown <= 0) {
             if(!enemieS.isEmpty())
                 enemies.add(enemieS.pop());
-            coolDown = 0.5f;
+            coolDown = 0.4f;
         }
 
         for (NormalEnemy enemy : enemies) enemy.draw(batch, delta);
