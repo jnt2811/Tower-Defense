@@ -39,12 +39,12 @@ public class Bullet extends Entity implements Disposable {
 
             bullet.draw(batch);
 
-            update();
+            update(delta);
         }
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
 
         // Set Bullet's Position
         bullet.setX((float)x);

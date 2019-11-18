@@ -23,7 +23,6 @@ public class NormalTower extends Entity implements Disposable {
     private ArrayList<NormalEnemy> enemies, targets;
     private ArrayList<Bullet> bullets;
     private float move;
-    private boolean placed = false;
 
     public NormalTower(ArrayList<NormalEnemy> enemies, Tile place) {
 
@@ -44,47 +43,45 @@ public class NormalTower extends Entity implements Disposable {
         bullets = new ArrayList<>();
         targets = new ArrayList<>();
 
-        setActive(true);
+        setActive(false);
     }
 
     @Override
     public void draw(SpriteBatch batch, float delta) {
 
-        if(isActive()) {
+        // Draw Bullets
+        for (Bullet bullet : bullets) bullet.draw(batch, delta);
 
-            // Draw Bullets
-            for (Bullet bullet : bullets) bullet.draw(batch, delta);
+        // Draw the Base and the Gun
+        towerBase.draw(batch);
+        towerGun.draw(batch);
 
-            // Draw the Base and the Gun
-            towerBase.draw(batch);
-            towerGun.draw(batch);
+        // Set Base's Position
+        towerBase.setX((float)x);
+        towerBase.setY((float)y);
 
-            // Set Base's Position
-            towerBase.setX((float)x);
-            towerBase.setY((float)y);
+        // Set Gun's Position
+        towerGun.setX((float)x);
+        towerGun.setY((float)y);
 
-            // Set Gun's Position
-            towerGun.setX((float)x);
-            towerGun.setY((float)y);
-
-            // Set Bullets FIRED
-            for(NormalEnemy target : targets)
-                createBullets(batch, target, delta);
-
-            update();
-        }
+        // Set Bullets FIRED
+        drawBullets(batch, delta);
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
 
-        if(placed) {
+        if(isActive()) {
 
             // Lock the Target
             lockTarget(enemies);
 
             // Unlock the Target
             unlockTarget(targets);
+
+            // Bullets update
+            for(NormalEnemy target : targets)
+                updateBullets(target, delta);
         }
     }
 
@@ -141,12 +138,13 @@ public class NormalTower extends Entity implements Disposable {
         if(towerGun.getRotation() > angle) towerGun.setRotation(move -= 15);
     }
 
+    public void drawBullets(SpriteBatch batch, float delta) {
+        for (Bullet bullet : bullets) bullet.draw(batch, delta);
+    }
 
-    public void createBullets(SpriteBatch batch, NormalEnemy target, float delta) {
+    public void updateBullets(NormalEnemy target, float delta) {
 
         for (int i = 0; i< bullets.size(); i++) {
-
-            bullets.get(i).draw(batch, delta);
 
             // Remove bullet from Bullets Array
             if(!bullets.get(i).isActive())
@@ -159,23 +157,6 @@ public class NormalTower extends Entity implements Disposable {
             bullets.add(new Bullet(type,towerGun.getX() + towerGun.getWidth()/2, towerGun.getY() + towerGun.getHeight()/2, target));
             timer = coolDown;
         }
-    }
-
-//    public int receiveReward() {
-//        for(NormalEnemy enemy : enemies) {
-//            if(!enemy.isActive()) {
-////                System.out.println("ok");
-//                return enemy.getReward();
-//            }
-//        }
-//        return 0;
-//    }
-
-    public boolean isPlaced() {
-        return placed;
-    }
-    public void setPlaced(boolean placed) {
-        this.placed = placed;
     }
 
     public int getPrice() {

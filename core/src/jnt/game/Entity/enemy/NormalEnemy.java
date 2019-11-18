@@ -66,13 +66,11 @@ public class NormalEnemy extends Entity implements Disposable {
 
             // Draw Enemy's Blood Bar
             drawEnemyBlood(batch);
-
-            update();
         }
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
 
         enemy.setPosition((float)x, (float)y);
 

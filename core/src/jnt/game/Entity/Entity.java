@@ -13,7 +13,7 @@ public abstract class Entity {
     }
 
     public abstract void draw(SpriteBatch batch, float delta);
-    public abstract void update();
+    public abstract void update(float delta);
 
     public void setActive(boolean active) {
         this.active = active;

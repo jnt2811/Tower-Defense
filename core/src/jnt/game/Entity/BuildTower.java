@@ -1,4 +1,4 @@
-package jnt.game.Game;
+package jnt.game.Entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,6 +14,7 @@ import jnt.game.Entity.tower.MortarTower;
 import jnt.game.Entity.tower.NormalTower;
 import jnt.game.Entity.tower.RifleTower;
 import jnt.game.Entity.tower.SmgTower;
+import jnt.game.Game.PlayerInfo;
 import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
 import jnt.game.Map.TileGrid;
@@ -21,7 +22,7 @@ import jnt.game.Map.TileType;
 
 import java.util.ArrayList;
 
-public class BuildTower implements Disposable {
+public class BuildTower extends Entity implements Disposable {
 
     private Sprite tower1Button, tower2Button, tower3Button,tower4Button;
     private ArrayList<NormalTower> towers;
@@ -61,14 +62,27 @@ public class BuildTower implements Disposable {
         this.holdingTower = false;
     }
 
-    public void build(SpriteBatch batch, float delta) {
+    public void draw(SpriteBatch batch, float delta) {
 
+        // Draw Tower Buttons
         tower1Button.draw(batch);
         tower2Button.draw(batch);
         tower3Button.draw(batch);
         tower4Button.draw(batch);
 
+        // Draw Tower placed
         for (NormalTower tower : towers) tower.draw(batch,delta);
+
+        // Draw tempTower following the mouse
+        if(holdingTower && checkValid()) {
+            tempTower.draw(batch, delta);
+        }
+    }
+
+    //--//
+    public void update(float delta) {
+
+        for (NormalTower tower : towers) tower.update(delta);
 
         // Get mouse's Coordinates
         mouseX = Gdx.input.getX();
@@ -85,8 +99,6 @@ public class BuildTower implements Disposable {
 
             tempTower.setX((int)getMouseTile().getX());
             tempTower.setY((int)getMouseTile().getY());
-            tempTower.draw(batch, delta);
-            tempTower.setPlaced(false);
         }
 
         // Place the Tower
@@ -97,7 +109,7 @@ public class BuildTower implements Disposable {
             towers.add(tempTower);
 
             //
-            tempTower.setPlaced(true);
+            tempTower.setActive(true);
             tileGrid.setTile(mouseX/60, mouseY/60, TileType.Grass1);
             player.decreaseGold(tempTower.getPrice());
 

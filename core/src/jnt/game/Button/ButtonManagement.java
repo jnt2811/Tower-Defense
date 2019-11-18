@@ -15,7 +15,7 @@ public class ButtonManagement implements Disposable {
     private float mouseX, mouseY;
     private Button buttonOriginal;
     private Music click;
-    private boolean startWave = false;
+    private boolean startWave = false, paused = false;
 
     public ButtonManagement(String screenName) {
         this.screenName = screenName;
@@ -62,11 +62,11 @@ public class ButtonManagement implements Disposable {
             }
             else if(buttonOriginal.getButtonType() == ButtonType.Pause) {
                 buttonOriginal.setTexture(ButtonType.Resume);
-                //
+                paused = true;
             }
             else if(buttonOriginal.getButtonType() == ButtonType.Resume) {
                 buttonOriginal.setTexture(ButtonType.Pause);
-                //
+                paused = false;
             }
         }
 
@@ -87,6 +87,7 @@ public class ButtonManagement implements Disposable {
     }
 
     public boolean getStartWave() {return startWave;}
+    public boolean getPaused() {return paused;}
 
     @Override
     public void dispose() {

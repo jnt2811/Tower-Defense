@@ -1,12 +1,10 @@
 package jnt.game.Game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import jnt.game.Button.ButtonManagement;
-import jnt.game.Entity.tower.NormalTower;
+import jnt.game.Entity.BuildTower;
+import jnt.game.Entity.Level;
 import jnt.game.Map.Map;
 import jnt.game.Map.Tile;
 import jnt.game.Map.TileGrid;
@@ -68,7 +66,8 @@ public class GameState implements Disposable {
     public void createTowers(SpriteBatch batch, float delta) {
         batch.begin();
 
-        buildTower.build(batch, delta);
+        buildTower.draw(batch, delta);
+        if (!buttons.getPaused()) buildTower.update(delta);
 
         batch.end();
     }
@@ -78,6 +77,7 @@ public class GameState implements Disposable {
         batch.begin();
 
         level.draw(batch,delta);
+        if (!buttons.getPaused()) level.update(delta);
 
         batch.end();
     }
