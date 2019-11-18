@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class BuildTower extends Entity implements Disposable {
 
-    private Sprite tower1Button, tower2Button, tower3Button,tower4Button;
+    private Sprite tower1, tower2, tower3,tower4;
     private ArrayList<NormalTower> towers;
     private ArrayList<NormalEnemy> enemies;
     private TileGrid tileGrid;
@@ -40,19 +40,19 @@ public class BuildTower extends Entity implements Disposable {
         this.tileGrid = tileGrid;
         this.player = player;
 
-        tower1Button = new Sprite(new Texture(Gdx.files.internal("tower1Button.png")));
-        tower2Button = new Sprite(new Texture(Gdx.files.internal("tower2Button.png")));
-        tower3Button = new Sprite(new Texture(Gdx.files.internal("tower3Button.png")));
-        tower4Button = new Sprite(new Texture(Gdx.files.internal("tower4Button.png")));
+        tower1 = new Sprite(new Texture(Gdx.files.internal("tower1.png")));
+        tower2 = new Sprite(new Texture(Gdx.files.internal("tower2.png")));
+        tower3 = new Sprite(new Texture(Gdx.files.internal("tower3.png")));
+        tower4 = new Sprite(new Texture(Gdx.files.internal("tower4.png")));
 
         click = Gdx.audio.newMusic(Gdx.files.internal("click.wav"));
         abort = Gdx.audio.newMusic(Gdx.files.internal("abort.mp3"));
 
         // Default
-        tower1Button.setPosition(1230, 510);
-        tower2Button.setPosition(1410, 510);
-        tower3Button.setPosition(1230, 330);
-        tower4Button.setPosition(1410, 330);
+        tower1.setPosition(1230, 510);
+        tower2.setPosition(1410, 510);
+        tower3.setPosition(1230, 330);
+        tower4.setPosition(1410, 330);
 
         // Array
         towers = new ArrayList<>();
@@ -65,10 +65,10 @@ public class BuildTower extends Entity implements Disposable {
     public void draw(SpriteBatch batch, float delta) {
 
         // Draw Tower Buttons
-        tower1Button.draw(batch);
-        tower2Button.draw(batch);
-        tower3Button.draw(batch);
-        tower4Button.draw(batch);
+        tower1.draw(batch);
+        tower2.draw(batch);
+        tower3.draw(batch);
+        tower4.draw(batch);
 
         // Draw Tower placed
         for (NormalTower tower : towers) tower.draw(batch,delta);
@@ -89,10 +89,10 @@ public class BuildTower extends Entity implements Disposable {
         mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
         // Pick up the Tower
-        if(checkIn(tower1Button)) pickTower(new NormalTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
-        if(checkIn(tower2Button)) pickTower(new SmgTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
-        if(checkIn(tower3Button)) pickTower(new RifleTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
-        if(checkIn(tower4Button)) pickTower(new MortarTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower1)) pickTower(new NormalTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower2)) pickTower(new SmgTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower3)) pickTower(new RifleTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
+        if(checkIn(tower4)) pickTower(new MortarTower(enemies, tileGrid.getTile(mouseY/60, mouseX/60)));
 
         // Tower picked up follows the mouse
         if(holdingTower && checkValid()) {
@@ -128,7 +128,7 @@ public class BuildTower extends Entity implements Disposable {
         }
     }
 
-    public void pickTower(NormalTower tower) {
+    private void pickTower(NormalTower tower) {
 
         click.play();
 
@@ -138,32 +138,32 @@ public class BuildTower extends Entity implements Disposable {
         else tempTower = null;
     }
 
-    public boolean placeTower() {
+    private boolean placeTower() {
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower != null && checkValid()) return true;
         return false;
     }
 
     // Check tile, tower must be placed in Grass tile, this function is used in placeTower
-    public boolean checkValid() {
+    private boolean checkValid() {
         if(tileGrid.getTile(mouseY/60, mouseX/60).getTileType() == TileType.Grass) return true;
         return false;
     }
 
     // Check the mouse if it is clicked in towerButton's area
-    public boolean checkIn(Sprite sprite) {
+    private boolean checkIn(Sprite sprite) {
         if( mouseX >= sprite.getX() && mouseX <= (sprite.getX() + sprite.getWidth())
                 && mouseY >= sprite.getY() &&  mouseY <= (sprite.getY() + sprite.getHeight())
                 && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && tempTower == null) return true;
         return false;
     }
 
-    public boolean abortOrder() {
+    private boolean abortOrder() {
         if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && tempTower != null) return true;
         return false;
     }
 
     // PLayer can buy more towers if they have enough gold, this function is used in pickTower
-    public boolean checkGold(NormalTower tempTower) {
+    private boolean checkGold(NormalTower tempTower) {
         if(player.getGold() - tempTower.getPrice() >= 0) return true;
         return false;
     }
@@ -177,9 +177,9 @@ public class BuildTower extends Entity implements Disposable {
         for(NormalTower tower : towers) tower.dispose();
         tempTower.dispose();
         tileGrid.dispose();
-        tower1Button.getTexture().dispose();
-        tower2Button.getTexture().dispose();
-        tower3Button.getTexture().dispose();
-        tower4Button.getTexture().dispose();
+        tower1.getTexture().dispose();
+        tower2.getTexture().dispose();
+        tower3.getTexture().dispose();
+        tower4.getTexture().dispose();
     }
 }

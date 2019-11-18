@@ -15,7 +15,7 @@ public class PlayerInfo implements Disposable {
     public PlayerInfo() {
 
         // Default
-        health = 10;
+        health = 1;
         gold = 50;
 
         // Textures

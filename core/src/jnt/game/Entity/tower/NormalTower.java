@@ -36,7 +36,7 @@ public class NormalTower extends Entity implements Disposable {
         // Default
         type = "normal";
         range = 200;
-        price = 5;
+        price = 10;
         coolDown = 0.2f;
         timer = coolDown;
 

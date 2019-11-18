@@ -2,13 +2,14 @@ package jnt.game.Button;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Button implements Disposable {
 
     private float x, y;
-    private Texture texture;
+    private Sprite sprite;
     private ButtonType buttonType;
 
     public Button(float x, float y, ButtonType buttonType) {
@@ -16,15 +17,16 @@ public class Button implements Disposable {
         this.x = x;
         this.y = y;
         this.buttonType = buttonType;
-        this.texture = new Texture(Gdx.files.internal(buttonType.textureName + ".png"));
+        this.sprite = new Sprite(new Texture(Gdx.files.internal(buttonType.spriteName + ".png")));
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y);
+        sprite.setPosition(x, y);
+        sprite.draw(batch);
     }
 
-    public int getHeight() {return texture.getHeight();}
-    public int getWidth() {return texture.getWidth();}
+    public float getHeight() {return sprite.getHeight();}
+    public float getWidth() {return sprite.getWidth();}
 
     public float getX() {
         return x;
@@ -40,11 +42,11 @@ public class Button implements Disposable {
         this.y = y;
     }
 
-    public Texture getTexture() {return texture;}
+    public Sprite getSprite() {return sprite;}
 
-    public void setTexture(ButtonType buttonType) {
+    public void setSprite(ButtonType buttonType) {
         setButtonType(buttonType);
-        this.texture = new Texture(Gdx.files.internal(buttonType.textureName + ".png"));
+        this.sprite = new Sprite(new Texture(Gdx.files.internal(buttonType.spriteName + ".png")));
     }
 
     public ButtonType getButtonType() {
@@ -54,8 +56,12 @@ public class Button implements Disposable {
         this.buttonType = buttonType;
     }
 
+    public void setButtonSize(int width, int height) {
+        sprite.setSize(width, height);
+    }
+
     @Override
     public void dispose() {
-        texture.dispose();
+        sprite.getTexture().dispose();
     }
 }

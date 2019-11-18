@@ -28,9 +28,9 @@ public class NormalEnemy extends Entity implements Disposable {
         enemy.setSize(60,60);
 
         // Default
-        blood = 10;
+        blood = 20;
         speed = 3;
-        reward = 5;
+        reward = 2;
         setActive(true);
 
         greenBlood = new Sprite(new Texture(Gdx.files.internal("greenBlood.png")));

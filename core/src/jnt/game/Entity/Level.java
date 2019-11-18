@@ -21,10 +21,11 @@ public class Level extends Entity implements Disposable {
     private float coolDown;
     private ArrayList<NormalEnemy> enemies;
     private Stack<NormalEnemy> enemieS;
-    private boolean done1 = false, done2 = false, done3 = false;
+    private boolean isActive = false, full = false, victory = false;
     private PlayerInfo player;
     private Music warning;
     private ButtonManagement buttons;
+    private int level = 1;
 
     public Level(PlayerInfo player, ButtonManagement buttons) {
 
@@ -40,52 +41,52 @@ public class Level extends Entity implements Disposable {
         this.buttons = buttons;
     }
 
-    public void setLevel(int level) {
-        if(level == 1) createLevel1();
-        if(level == 2) createLevel2();
-        if(level == 3) createLevel3();
+    private void setLevel() {
+        if(level == 1 && !isActive) createLevel1();
+        if(level == 2 && !isActive) createLevel2();
+        if(level == 3 && !isActive) createLevel3();
     }
 
-
-    public void createLevel1() {
-
-        // Add 4 enemies for each type
-        for (int i=0; i<10; i++) enemieS.push(new NormalEnemy());
-        for (int i=0; i<10; i++) enemieS.push(new NinjaEnemy());
-        for (int i=0; i<5; i++) enemieS.push(new TankerEnemy());
-        for (int i=0; i<5; i++) enemieS.push(new BossEnemy());
-
-        //
-        if(enemies.size() == 0) done1 = true;
-    }
-    public void createLevel2() {
+    private void createLevel1() {
 
         // Add 4 enemies for each type
-        for (int i=0; i<0; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new NormalEnemy());
         for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
-        for (int i=0; i<0; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new TankerEnemy());
         for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
 
-        //
-        if(enemies.size() == 0) done2 = true;
+        isActive = true;
     }
-    public void createLevel3() {
+
+    private void createLevel2() {
 
         // Add 4 enemies for each type
-        for (int i=0; i<0; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<2; i++) enemieS.push(new NormalEnemy());
         for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
-        for (int i=0; i<0; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new TankerEnemy());
         for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
 
-        //
-        if(enemies.size() == 0) done1 = true;
+        isActive = true;
+    }
+
+    private void createLevel3() {
+
+        // Add 4 enemies for each type
+        for (int i=0; i<2; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new TankerEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new BossEnemy());
+
+        isActive = true;
     }
 
 
     public void draw(SpriteBatch batch, float delta) {
-//        System.out.println(buttonManagement.getStartWave());
 
         if (buttons.getStartWave()) {
+
+            // Set Enemies
+            setLevel();
 
             // Add Enemies to the Array
             if (!buttons.getPaused()) {
@@ -107,6 +108,7 @@ public class Level extends Entity implements Disposable {
         // Enemies update
         for (NormalEnemy enemy : enemies) enemy.update(delta);
 
+        //
         for (int i=0; i<enemies.size(); i++) {
 
             // Decrease Player's Health if enemy reaches the final point
@@ -128,15 +130,33 @@ public class Level extends Entity implements Disposable {
                 enemies.remove(i);
             }
         }
+
+        // Check enemies are pushed from stack to array
+        if(enemieS.size() == 0 && enemies.size() > 0) full = true;
+
+        // Check Stage finished yet ?
+        if(enemies.size() == 0 && full) {
+            buttons.setButton0Play();
+
+            if(level <= 4) level++;
+            if(level == 2) buttons.setButton1Level2();
+            else if(level == 3) buttons.setButton1Level3();
+            else if(level == 4) victory = true;
+
+            full = false;
+            isActive = false;
+        }
     }
 
-    //
     public ArrayList<NormalEnemy> getEnemies() {
         return enemies;
     }
 
+    public boolean getVictory() {return victory;}
+
     @Override
     public void dispose() {
         for(NormalEnemy enemy : enemies) enemy.dispose();
+        buttons.dispose();
     }
 }

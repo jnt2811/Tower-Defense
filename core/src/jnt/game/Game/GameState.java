@@ -30,7 +30,6 @@ public class GameState implements Disposable {
         buttons = new ButtonManagement("game screen");
 
         level = new Level(player, buttons);
-        level.setLevel(1);
 
         buildTower = new BuildTower(level.getEnemies(), tileGrid, player);
 
@@ -106,6 +105,10 @@ public class GameState implements Disposable {
         buttons.update();
 
         batch.end();
+    }
+
+    public boolean getVictory() {
+        return level.getVictory();
     }
 
     @Override

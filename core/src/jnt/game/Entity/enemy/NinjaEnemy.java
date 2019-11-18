@@ -12,7 +12,7 @@ public class NinjaEnemy extends NormalEnemy {
         // Default
         blood = 20;
         speed = 4;
-        reward = 10;
+        reward = 5;
 
         // Calculate One Pixel compared to Blood Bar's Width
         onePixel = greenBlood.getWidth() / blood;

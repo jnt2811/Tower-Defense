@@ -32,11 +32,13 @@ public class GameScreen implements Screen {
         fps.render();
         fps.update();
 
-        if(gameState.getHealth() == 0) Gdx.app.exit();
+        if(gameState.getVictory()) game.setScreen(new VictoryScreen(game));
+        if(gameState.getHealth() == 0) game.setScreen(new DefeatScreen(game));
     }
 
     @Override
     public void dispose() {
+        game.dispose();
         game.batch.dispose();
         gameState.dispose();
         fps.dispose();
