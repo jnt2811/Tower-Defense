@@ -46,4 +46,5 @@ public class Frame implements Disposable {
     public void dispose() {
         batch.dispose();
     }
+
 }

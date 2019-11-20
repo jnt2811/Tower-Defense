@@ -1,6 +1,9 @@
 package jnt.game.Entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Timer;
 
 public abstract class Entity {
 
@@ -42,4 +45,10 @@ public abstract class Entity {
     public int getId() {
         return id;
     }
+
+
+
+
+
+
 }
