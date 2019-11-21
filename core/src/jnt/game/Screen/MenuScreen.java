@@ -15,8 +15,7 @@ public class MenuScreen implements Screen {
     private TowerDefense game;
     private ButtonManagement buttons;
     private Sprite background;
-    Sound mp3sound;
-//    private Music music;
+    private Music music;
 
     public MenuScreen(TowerDefense game) {
         this.game = game;
@@ -25,12 +24,7 @@ public class MenuScreen implements Screen {
 
         background = new Sprite(new Texture(Gdx.files.internal("menuScreen.png")));
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Sound mp3Sound = Gdx.audio.newSound(Gdx.files.internal("spaceship.mp3"));
-
-
-
-
-//        music = Gdx.audio.newMusic(Gdx.files.internal("defeat.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("spaceship.mp3"));
     }
 
     @Override
@@ -44,12 +38,9 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        music.play();
-
         game.batch.begin();
-        mp3sound.play();
-        mp3sound.play(0.5f);
 
+        music.play();
 
         background.draw(game.batch);
 
@@ -83,7 +74,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        mp3sound.dispose();
+        music.dispose();
 
     }
 }
