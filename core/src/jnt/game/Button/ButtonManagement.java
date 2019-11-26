@@ -70,7 +70,7 @@ public class ButtonManagement implements Disposable {
 
         if(screenName == "defeat screen") {
 
-            buttons.add(new Button(650, 240, ButtonType.TryAgain)); //0 - try again
+
             buttons.add(new Button(650, 160, ButtonType.QuitGame)); //1 - quit game
 
             for(Button button : buttons) button.setButtonSize(250, 65);
@@ -136,7 +136,6 @@ public class ButtonManagement implements Disposable {
 
     public boolean getStartWave() {return startWave;}
     public boolean getPaused() {return paused;}
-    public boolean getNewGame() {return newGame;}
 
     public void setButton0Play() {
         button0.setSprite(ButtonType.Play);
