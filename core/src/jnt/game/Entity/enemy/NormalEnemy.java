@@ -28,7 +28,7 @@ public class NormalEnemy extends Entity implements Disposable {
         enemy.setSize(60,60);
 
         // Default
-        blood = 20;
+        blood = 100;
         speed = 3;
         reward = 2;
         setActive(true);
@@ -152,10 +152,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     Valid[m][n+1] = -1;
                     n++;
                 }
-                else if(Map.map[m][n+1] == 3) {
-                    if(isActive()) setActive(false);
-                    if(!finished) finished = true;
-                }
+                else if(Map.map[m][n+1] == 3 && !finished) finished = true;
             }
             direction2 = 1;
             turn = 0;
@@ -169,10 +166,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     Valid[m][n-1] = -1;
                     n--;
                 }
-                else if(Map.map[m][n-1] == 3) {
-//                    if(isActive()) setActive(false);
-                    if(!finished) finished = true;
-                }
+                else if(Map.map[m][n-1] == 3 && !finished) finished = true;
             }
             direction2 = 2;
             turn = 0;
@@ -186,10 +180,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     Valid[m+1][n] = -1;
                     m++;
                 }
-                else if(Map.map[m+1][n] == 3) {
-//                    if(isActive()) setActive(false);
-                    if(!finished) finished = true;
-                }
+                else if(Map.map[m+1][n] == 3 && !finished) finished = true;
             }
             direction2 = 3;
             turn = 0;
@@ -203,10 +194,7 @@ public class NormalEnemy extends Entity implements Disposable {
                     Valid[m-1][n] = -1;
                     m--;
                 }
-                else if(Map.map[m-1][n] == 3) {
-//                    if(isActive()) setActive(false);
-                    if(!finished) finished = true;
-                }
+                else if(Map.map[m-1][n] == 3 && !finished) finished = true;
             }
             direction2 = 4;
             turn = 0;

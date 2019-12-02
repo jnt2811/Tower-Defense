@@ -49,7 +49,7 @@ public class DefeatScreen implements Screen {
 
         game.batch.end();
 
-
+        if(buttons.getNewGame()) game.setScreen(new GameScreen(game));
     }
 
     @Override

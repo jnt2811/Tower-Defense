@@ -12,8 +12,7 @@ public class Bullet extends Entity implements Disposable {
 
     private Sprite bullet;
     private int dame;
-    private float speed;
-    private int type;
+    private static final float speed = 10;
 
     private NormalEnemy target;
     private double distance;
@@ -27,7 +26,6 @@ public class Bullet extends Entity implements Disposable {
         setBulletType(type);
 
         // Default
-        speed = 10;
         setActive(true);
     }
 
@@ -68,28 +66,24 @@ public class Bullet extends Entity implements Disposable {
 
             // Default
             dame = 3;
-//            speed = 10;
         }
         if(type == "smg") {
             bullet = new Sprite(new Texture(Gdx.files.internal("bullet2.png")));
 
             // Default
             dame = 3;
-//            speed = 10;
         }
         if(type == "rifle") {
             bullet = new Sprite(new Texture(Gdx.files.internal("bullet3.png")));
 
             // Default
             dame = 10;
-//            speed = 10;
         }
         if(type == "mortar") {
             bullet = new Sprite(new Texture(Gdx.files.internal("bullet4.png")));
 
             // Default
             dame = 50;
-//            speed = 10;
         }
     }
 

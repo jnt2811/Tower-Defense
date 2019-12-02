@@ -23,7 +23,6 @@ public class TileGrid implements Disposable {
                 if (map[y][x] == 6) setTile(x, y, TileType.Rock1);
                 if (map[y][x] == 7) setTile(x, y, TileType.Tree);
                 if (map[y][x] == 8) setTile(x, y, TileType.Tree1);
-                if (map[y][x] == 9) setTile(x, y, TileType.Water);
             }
         }
     }

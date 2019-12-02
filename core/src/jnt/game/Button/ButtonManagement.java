@@ -62,16 +62,13 @@ public class ButtonManagement implements Disposable {
 
         if(screenName == "victory screen") {
 
-            buttons.add(new Button(650, 240, ButtonType.NewGame)); //0 - new game
-            buttons.add(new Button(650, 160, ButtonType.QuitGame)); //1 - quit game
-
+            buttons.add(new Button(650, 200, ButtonType.QuitGame)); //0 - quit game
             for(Button button : buttons) button.setButtonSize(250, 65);
         }
 
         if(screenName == "defeat screen") {
 
-
-            buttons.add(new Button(650, 160, ButtonType.QuitGame)); //1 - quit game
+            buttons.add(new Button(650, 200, ButtonType.QuitGame)); //0 - quit game
 
             for(Button button : buttons) button.setButtonSize(250, 65);
 
@@ -119,11 +116,7 @@ public class ButtonManagement implements Disposable {
         }
 
         if(screenName == "victory screen" || screenName == "defeat screen") {
-            if(checkClick(0)) {
-                click.play();
-                newGame = true;
-            }
-            if(checkClick(1)) Gdx.app.exit();
+            if(checkClick(0)) Gdx.app.exit();
         }
     }
 
@@ -136,6 +129,7 @@ public class ButtonManagement implements Disposable {
 
     public boolean getStartWave() {return startWave;}
     public boolean getPaused() {return paused;}
+    public boolean getNewGame() {return newGame;}
 
     public void setButton0Play() {
         button0.setSprite(ButtonType.Play);

@@ -15,8 +15,8 @@ public class PlayerInfo implements Disposable {
     public PlayerInfo() {
 
         // Default
-        health = 1;
-        gold = 50;
+        health = 10;
+        gold = 1000;
 
         // Textures
         heart = new Texture(Gdx.files.internal("heart.png"));

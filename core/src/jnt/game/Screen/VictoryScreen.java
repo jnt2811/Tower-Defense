@@ -44,15 +44,19 @@ public class VictoryScreen implements Screen {
 
         music.play();
 
+
+
+
         game.batch.begin();
 
         background.draw(game.batch);
 
         buttons.draw(game.batch);
         buttons.update();
+
         game.batch.end();
 
-
+        if(buttons.getNewGame()) game.setScreen(new GameScreen(game));
     }
 
     @Override

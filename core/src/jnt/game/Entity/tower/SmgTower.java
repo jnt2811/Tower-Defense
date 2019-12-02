@@ -19,7 +19,7 @@ public class SmgTower extends NormalTower {
         // Default
         type = "smg";
         range = 150;
-        price = 20;
+        price = 30;
         coolDown = 0.1f;
         timer = coolDown;
     }

@@ -6,8 +6,7 @@ public enum TileType {
     Land("land"), Silver("silver"),
     Point("point"),
     Tree("tree"), Tree1("tree1"),
-    Rock("rock"), Rock1("rock1"),
-    Water("water");
+    Rock("rock"), Rock1("rock1");
 
     String textureName;
 

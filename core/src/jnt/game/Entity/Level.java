@@ -50,10 +50,10 @@ public class Level extends Entity implements Disposable {
     private void createLevel1() {
 
         // Add 4 enemies for each type
-        for (int i=0; i<1; i++) enemieS.push(new NormalEnemy());
+        for (int i=0; i<10; i++) enemieS.push(new NormalEnemy());
         for (int i=0; i<1; i++) enemieS.push(new NinjaEnemy());
         for (int i=0; i<1; i++) enemieS.push(new TankerEnemy());
-        for (int i=0; i<0; i++) enemieS.push(new BossEnemy());
+        for (int i=0; i<1; i++) enemieS.push(new BossEnemy());
 
         isActive = true;
     }
